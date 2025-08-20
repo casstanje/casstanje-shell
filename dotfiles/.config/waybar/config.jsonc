@@ -124,7 +124,7 @@
     "cpu": {
         "format": "cpu {usage}%",
         "interval": 2,
-        "on-click": "flatpak run io.missioncenter.MissionCenter",
+        "on-click": "plasma-systemmonitor",
         "states": {
             "critical": 90
         }
@@ -133,7 +133,7 @@
     "memory": {
         "format": "mem {percentage}%",
         "interval": 2,
-        "on-click": "flatpak run io.missioncenter.MissionCenter",
+        "on-click": "plasma-systemmonitor",
         "states": {
             "critical": 80
         }
