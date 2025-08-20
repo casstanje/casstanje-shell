@@ -4,7 +4,7 @@
 The shell uses these packages:
 - obviously hyprland
 - waybar for the taskbar
-- wofi for the application launcher
+- rofi-wayland for the application launcher
 - kitty as the terminal
 - networkmanager, network-manager-applet and nm-connection-editor for networking
 - bluez and blueman for bluetooth
@@ -36,5 +36,7 @@ and uncommenting and editing this line in setup.sh:
 # custom_packages_file='<path_to_file>'
 ```
 to reference your file.
+
+Or just, y'know, create the array in the isntall file itself. Whatever you prefer
 
 After that, just run setup.sh.

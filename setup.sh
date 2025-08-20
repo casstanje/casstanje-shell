@@ -13,7 +13,7 @@ packages=(
     "hyprpaper"
     "hyprland-qt-support"
     "hyprlang"
-    "wofi"
+    "rofi-wayland"
     "hyprgraphics"
     "hyprland-qtutils"
     "hyprshot"
