@@ -10,7 +10,7 @@ The shell uses these packages:
 - bluez and blueman for bluetooth
 - plasmasystemmonitor for monitoring
 - power-profiles-daemon for power management
-- dunst for notfications
+- swaync for notfications
 - and some others. The full list can be found in setup.sh
 
 ## How to install

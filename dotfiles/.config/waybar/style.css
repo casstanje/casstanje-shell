@@ -34,7 +34,7 @@ tooltip > * {
 #network,
 #pulseaudio,
 #custom-currentlayout,
-#custom-dunst-dnd,
+#custom-notification,
 #custom-power,
 #mpris,
 #custom-gay,
@@ -75,7 +75,7 @@ window#waybar.empty #window {
     padding: 2px 1px 2px 8px;
 }
 
-#custom-dunst-dnd {
+#custom-notification {
     padding: 2px 3px 2px 8px;
 }
 
@@ -87,7 +87,7 @@ window#waybar.empty #window {
 #memory:hover,
 #pulseaudio:hover,
 #custom-currentlayout:hover,
-#custom-dunst-dnd:hover,
+#custom-notification:hover,
 #custom-power:hover,
 #mpris:hover,
 #power-profiles-daemon:hover,

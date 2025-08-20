@@ -1,7 +1,7 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# custom_packages_file='<path_to_file>'
+#custom_packages_file=<path_to_custom_packages_file>
 
 packages=(
     "wget"
@@ -25,7 +25,7 @@ packages=(
     "networkmanager"
     "network-manager-applet"
     "nm-connection-editor"
-    "dunst"
+    "swaync"
     "pavucontrol"
     "waybar"
     "kitty"
