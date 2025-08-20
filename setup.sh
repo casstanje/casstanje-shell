@@ -24,6 +24,7 @@ packages=(
     "dunst"
     "pavucontrol"
     "waybar"
+    "kitty"
     "flatpak"
     "nm-connection-editor"
     "fastfetch"
