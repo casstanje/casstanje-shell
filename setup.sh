@@ -1,6 +1,8 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+# custom_packages_file='<path_to_file>'
+
 packages=(
     "wget"
     "git"
@@ -20,19 +22,19 @@ packages=(
     "qt6ct"
     "nwg-look"
     "nwg-displays"
+    "networkmanager"
     "network-manager-applet"
+    "nm-connection-editor"
     "dunst"
     "pavucontrol"
     "waybar"
     "kitty"
     "flatpak"
-    "nm-connection-editor"
     "fastfetch"
     "blueman"
     "bluez"
     "nemo"
     "firefox"
-    "github-cli"
     "gtk4"
     "ttf-jetbrains-mono"
     "ttf-jetbrains-mono-nerd"
@@ -42,6 +44,8 @@ packages=(
     "qt6-svg"
     "qt6-declarative"
     "qt5-quickcontrols"
+    "gnome-keyring"
+    "breeze"
 )
 
 _checkCommandExists() {
@@ -136,6 +140,19 @@ else
         _install "$package"
         echo ""
     done
+
+    if ! [ -z "$custom_packages_file" ]; then
+        source $custom_packages_file
+        echo
+        echo "-----"
+        echo "Custom Packages"
+
+        for package in "${custom_packages[@]}"
+        do
+            _install "$package"
+            echo ""
+        done
+    fi
 
     sudo systemctl enable sddm.service > /dev/null
     sudo systemctl enable bluetooth.service > /dev/null
