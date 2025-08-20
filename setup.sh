@@ -26,6 +26,7 @@ packages=(
     "waybar"
     "flatpak"
     "nm-connection-editor"
+    "fastfetch"
     "blueman"
     "bluez"
     "nemo"
@@ -37,7 +38,6 @@ packages=(
     "partitionmanager"
     "plasma-systemmonitor"
     "power-profiles-daemon"
-    "python3"
     "qt6-svg"
     "qt6-declarative"
     "qt5-quickcontrols"
@@ -173,6 +173,40 @@ else
         _install "lib32-mesa"
     fi
 
+    echo
+    echo "-----"
+    echo "Install .bashrc? [Y/n]"
+    echo "This will move your current .bashrc to $HOME/.config/bashrc/. You can move it to $HOME/.config/bashrc/custom if you want it sourced in the new .bashrc"
+    echo "Any extra stuff can also be added to $HOME/.config/bashrc/custom/ in files"
+    read -s -n 1 installBashrc
+
+    if [ "$installBashrc" = "y" ] || [ "$installBashrc" = "Y" ] || [ "$installBashrc" == "" ]; then
+        if [[ -n "$BASH_VERSION" ]]; then
+            mkdir -p $HOME/.config/bashrc/custom/
+            if [ -f "$HOME/.bashrc" ]; then
+                mv -f $HOME/.bashrc $HOME/.config/bashrc/old-bashrc
+            fi
+            echo "##############" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "### BASHRC ###" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "##############" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "# DO NOT DELETE" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "# Custom stuff can be added in $HOME/.config/bashrc/custom/ in files you create yourself" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo 'if [ "$(ls -A $HOME/.config/bashrc/custom/)" ]; then' | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "  for f in $HOME/.config/bashrc/custom/*" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "  do" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo '    source "$f"' | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "  done" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo "fi" | sudo tee -a $HOME/.bashrc > /dev/null
+            echo ".bashrc installed!"
+        else
+            echo "You're not using bash. Cancelling..."
+        fi
+    fi
+
+
+
     echo 
     echo "-----"
     echo "Install dotfiles and themes? [Y/n]"
@@ -182,6 +216,14 @@ else
     if [ "$installDotfiles" = "y" ] || [ "$installDotfiles" = "Y" ] || [ "$installDotfiles" == "" ]; then
         cd "$SCRIPT_DIR" || exit
         
+        echo
+        echo "Installing python3"
+        if [[ $(_checkCommandExists "python3") == 0 ]]; then
+            echo "python3 is already insssssstalled."
+        else
+            _install "python3"
+        fi
+
         echo
         echo "Installing catppuccin GTK theme (https://github.com/catppuccin/gtk/)"
         if python3 catppuccin-gtk-install.py mocha green > /dev/null ; then
@@ -197,10 +239,8 @@ else
         sudo mkdir -p /usr/share/sddm/themes/catppuccin-mocha-green
         sudo unzip -o -q catppuccin-mocha-green-sddm.zip -d /usr/share/sddm/themes/catppuccin-mocha-green
         sudo rm -f /etc/sddm.conf
-        sudo tee -a /etc/sddm.conf > /dev/null <<-EOT
-        [Theme]
-        Current=catppuccin-mocha-green
-        EOT
+        echo "[Theme]" | sudo tee -a /etc/sddm.conf > /dev/null
+        echo "Current=catppuccin-mocha-green" | sudo tee -a /etc/sddm.conf > /dev/null
 
         cd "$SCRIPT_DIR" || exit
 
@@ -222,9 +262,6 @@ else
                 echo "Country code not valid. Try again."
             fi
         done
-
-
-
     fi
 
     echo
