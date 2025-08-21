@@ -17,12 +17,12 @@ scale trough {
   margin: 0rem 1rem;
   min-height: 8px;
   min-width: 70px;
-  border-radius: 12.6px;
+  border-radius: 4px;
 }
 
 trough slider {
   margin: -10px;
-  border-radius: 12.6px;
+  border-radius: 4px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
   transition: all 0.2s ease;
   background-color: #89b4fa;
@@ -38,17 +38,17 @@ trough {
 
 /* notifications */
 .notification-background {
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px #45475a;
-  border-radius: 12.6px;
+  box-shadow: inset 0 0 0 2px #a6e3a1;
+  border-radius: 4px;
   margin: 18px;
-  background: #181825;
+  background: #1e1e2e;
   color: #cdd6f4;
   padding: 0;
 }
 
 .notification-background .notification {
   padding: 7px;
-  border-radius: 12.6px;
+  border-radius: 4px;
 }
 
 .notification-background .notification.critical {
@@ -83,7 +83,7 @@ trough {
 .notification-background .close-button {
   margin: 7px;
   padding: 2px;
-  border-radius: 6.3px;
+  border-radius: 4px;
   color: #1e1e2e;
   background-color: #f38ba8;
 }
@@ -129,14 +129,14 @@ trough {
 .notification progress,
 .notification trough,
 .notification progressbar {
-  border-radius: 12.6px;
+  border-radius: 4px;
   padding: 3px 0;
 }
 
 /* control center */
 .control-center {
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px #313244;
-  border-radius: 12.6px;
+  box-shadow: inset 0 0 0 2px #a6e3a1;
+  border-radius: 4px;
   background-color: #1e1e2e;
   color: #cdd6f4;
   padding: 14px;
@@ -216,7 +216,7 @@ scrollbar trough {
 /* mpris */
 .widget-mpris-player {
   background: #313244;
-  border-radius: 12.6px;
+  border-radius: 4px;
   color: #cdd6f4;
 }
 
@@ -228,7 +228,7 @@ scrollbar trough {
 
 .widget-mpris-album-art {
   -gtk-icon-size: 100px;
-  border-radius: 12.6px;
+  border-radius: 4px;
   margin: 0 10px;
 }
 
@@ -243,7 +243,7 @@ scrollbar trough {
 }
 
 .widget-mpris button {
-  border-radius: 12.6px;
+  border-radius: 4px;
   color: #cdd6f4;
   margin: 0 5px;
   padding: 2px;

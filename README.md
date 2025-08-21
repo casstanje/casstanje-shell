@@ -3,7 +3,7 @@
 ![Alt text](/assets/images/preview_1.png "preview")
 The shell uses these packages:
 - obviously hyprland
-- waybar for the taskbar
+- quickshell for the taskbar
 - rofi-wayland for the application launcher
 - kitty as the terminal
 - networkmanager, network-manager-applet and nm-connection-editor for networking
@@ -12,6 +12,8 @@ The shell uses these packages:
 - power-profiles-daemon for power management
 - swaync for notfications
 - and some others. The full list can be found in setup.sh
+
+Most configs are based on the official catppuccin ones, just edited a little to fit my style more.
 
 ## How to install
 First of all, clone this repo and cd into it.
@@ -37,6 +39,13 @@ and uncommenting and editing this line in setup.sh:
 ```
 to reference your file.
 
-Or just, y'know, create the array in the isntall file itself. Whatever you prefer
+Or just, y'know, create the array in the install file itself. Whatever you prefer
 
 After that, just run setup.sh.
+
+## TODO
+- Better menu for quickshell systemtray. Right now, it just uses the QsMenu
+
+### maybes
+- Let the user choose which widgets to use in the bar
+- Let the user choose between catppuccin flavours, with green as the default
