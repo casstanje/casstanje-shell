@@ -33,7 +33,7 @@ Scope {
                 left: true
                 right: true
             } 
-            color: "#1e1e2e"
+            color: "transparent"
             margins.left: 8
             margins.right: 8
             margins.top: 8
@@ -49,8 +49,8 @@ Scope {
             Row {}
             Rectangle {
                 anchors.fill: parent
-                color: "transparent"
                 border.color: "#a6e3a1"
+                color: "#1e1e2e"
                 border.width: 2
                 radius: 4
                 RowLayout {
