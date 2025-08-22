@@ -4,6 +4,7 @@ import Quickshell
 
 MouseArea {
     id: mouseArea
+    property var bar: QsWindow.window
     implicitWidth: wrapper.width
     implicitHeight: wrapper.height
     property var clickAction: function () {}
@@ -13,12 +14,16 @@ MouseArea {
     property int maxWidth: 0
     required default property Item child
     property bool hovered: false
+    property string tooltip: ""
+    property int tooltipExtraTopMargin: 0
+    property bool tooltipVisible: {
+        hovered && tooltip != ""
+    }
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     onPressed: function(mouse) {
         if(mouse.button == Qt.LeftButton){
             if(clickAction != undefined) clickAction()
         }else if(mouse.button == Qt.RightButton){
-            console.log("wow")
             if(rightClickAction != undefined) rightClickAction()
         }
     }
@@ -71,5 +76,45 @@ MouseArea {
     Rectangle {
         id: tooltipHolder
         y: 100
+    }
+
+    PopupWindow {
+        anchor.window: mouseArea.bar
+        visible: mouseArea.tooltipVisible
+        anchor.rect.x: mouseArea.parent.mapToGlobal(mouseArea.x, mouseArea.y).x + wrapper.width / 2 - width / 2
+        anchor.rect.y: mouseArea.parent.mapToGlobal(mouseArea.x, mouseArea.y).y + wrapper.height + 5 + mouseArea.tooltipExtraTopMargin
+        implicitWidth: tooltipWrapper.width
+        implicitHeight: tooltipWrapper.height
+        color: "transparent"
+
+        Rectangle {
+            id: tooltipWrapper
+            property real margin: 4
+            property var tooltipChild: Text{
+                text: mouseArea.tooltip
+                color: "#cdd6f4"
+                font.family: "JetBrainsMono"
+                font.bold: true
+                font.pointSize: 10
+                x: tooltipWrapper.margin * 2
+                y: tooltipWrapper.margin
+                width: width - tooltipWrapper.margin * 4
+                height: height - tooltipWrapper.margin * 2
+            }
+
+            border.width: 2
+            border.color: "#a6e3a1"
+            radius: 4
+            color: "#1e1e2e"
+
+            // Set the item's visual children list to just the passed item.
+            children: [tooltipChild]
+            
+
+            implicitWidth: tooltipChild.implicitWidth + margin * 4
+                
+            implicitHeight: 25 // set to fixed height so all widget match eachother
+            //child.implicitHeight + margin * 2
+        }
     }
 }

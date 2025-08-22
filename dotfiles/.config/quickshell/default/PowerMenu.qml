@@ -35,6 +35,8 @@ ClippingWrapperRectangle{
                 clickAction: function(){
                     poweroffProc.running = true
                 }
+                tooltip: "power off"
+                tooltipExtraTopMargin: 10
             }
             ClickableContainer {
                 id: rebootButton
@@ -48,6 +50,8 @@ ClippingWrapperRectangle{
                 clickAction: function(){
                     rebootProc.running = true
                 }
+                tooltip: "reboot"
+                tooltipExtraTopMargin: 10
             }
             ClickableContainer {
                 id: logoutButton
@@ -61,6 +65,8 @@ ClippingWrapperRectangle{
                 clickAction: function(){
                     exitProc.running = true
                 }
+                tooltip: "log out"
+                tooltipExtraTopMargin: 10
             }
         }
     }
