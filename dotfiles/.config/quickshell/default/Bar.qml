@@ -212,7 +212,7 @@ Scope {
 
     Process {
         id: changePowerProfileProc
-        command: [`${root.pathToCyclePowerScript}`]
+        command: ["sh", `${root.pathToCyclePowerScript}`]
         onRunningChanged: {
             root.powerProfileSwitching = !root.powerProfileSwitching
         }
@@ -230,7 +230,7 @@ Scope {
 
     Process {
         id: getRamUsage
-        command: [`${root.pathToRamUsageScript}`]
+        command: ["sh", `${root.pathToRamUsageScript}`]
         stdout: StdioCollector {
             onStreamFinished: {
                 root.ramUsage = this.text
@@ -248,7 +248,7 @@ Scope {
 
     Process {
         id: getCpuUsage
-        command: [`${root.pathToCpuUsageScript}`]
+        command: ["sh", `${root.pathToCpuUsageScript}`]
         stdout: StdioCollector {
             onStreamFinished: {
                 root.cpuUsage = this.text
