@@ -44,7 +44,7 @@ Or just, y'know, create the array in the install file itself. Whatever you prefe
 After that, just run setup.sh.
 
 ## TODO
-- Better menu for quickshell systemtray. Right now, it just uses the QsMenu
+- Improve the system tray menu. It's not that pretty at the moment \:
 
 ### maybes
 - Let the user choose which widgets to use in the bar

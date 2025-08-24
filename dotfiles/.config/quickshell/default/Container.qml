@@ -5,12 +5,14 @@ Rectangle {
     id: wrapper
     property real margin: 4
     required default property Item child
-
-    border.width: 1
-    border.color: "#45475a"
+    property int borderWidthOverride: 1
+    property color borderColorOverride: "#45475a"
+    property color colorOverride: "transparent"
+    
+    border.width: borderWidthOverride
+    border.color: borderColorOverride
     radius: 4
-    color: "transparent"
-
+    color: colorOverride
     // Set the item's visual children list to just the passed item.
     children: [child]
 
