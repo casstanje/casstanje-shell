@@ -14,8 +14,13 @@ MouseArea {
     required property SystemTrayItem item
     property bool targetMenuOpen: false
     property var bar: root.QsWindow.window
-    property var subMenuHovered: false
+    property var subMenuOpen: false
+    property var subMenuPosition
     hoverEnabled: true
+
+    Connections {
+        target: root
+    }
 
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     implicitWidth: 17
@@ -47,13 +52,22 @@ MouseArea {
         implicitHeight: menuContainer.implicitHeight
         implicitWidth: menuContainer.implicitWidth
         color: "transparent"
+        id: menuWindow
 
         MouseArea {
             id: menuMouseArea
             hoverEnabled: true
             implicitHeight: menuContainer.implicitHeight
             implicitWidth: menuContainer.implicitWidth
-            onExited: if(!root.subMenuHovered) root.targetMenuOpen = false
+            property bool menuHovered
+            onEntered: {
+                menuHovered = true
+            }
+            onExited: {
+                if(root.subMenuOpen != true) root.targetMenuOpen = false
+                menuHovered = false
+            }
+            
             Rectangle {
                 id: menuContainer
                 color: "#1e1e2e"
@@ -83,14 +97,17 @@ MouseArea {
                                 property bool itemHoveredOver: false
                                 property bool showSubMenu: false
                                 onEntered: itemHoveredOver = true
-                                onExited: {itemHoveredOver = false}
+                                onExited: {  itemHoveredOver = false }
                                 implicitWidth: (itemColumnLayout.implicitWidth < columnLayout.implicitWidth ? columnLayout.implicitWidth : itemColumnLayout.implicitWidth)
                                 implicitHeight: itemColumnLayout.implicitHeight
-                                acceptedButtons: Qt.LeftButton
-                                onClicked: {
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                onClicked: function(mouse) {
                                     if(loader.modelData.hasChildren){
-                                        showSubMenu = !showSubMenu
-                                    }else{
+                                        root.subMenuOpen = true
+                                        root.subMenuPosition = mapToItem(menuMouseArea, mouse.x, mouse.y)
+                                        showSubMenu = true
+                                        
+                                    }else if(mouse.button == Qt.LeftButton){
                                         loader.modelData.triggered()
                                     }
                                 }
@@ -114,10 +131,10 @@ MouseArea {
                                                     }
 
                                                     readonly property Component actualIcon: Component {
-                                                        Image {
+                                                        IconImage {
                                                             source: loader.modelData.icon
-                                                            sourceSize.height: 15
-                                                            sourceSize.width: 15
+                                                            implicitHeight: 15
+                                                            implicitWidth: 15
                                                         }
                                                     }
 
@@ -130,7 +147,7 @@ MouseArea {
                                         }
                                         Text {
                                             id: itemText
-                                            text: loader.modelData.text + (loader.modelData.hasChildren ? (itemMouseArea.showSubMenu ? " " : " ") : "")
+                                            text: loader.modelData.text + (loader.modelData.hasChildren ? " 󰇘" : "")
                                             color:  (!itemMouseArea.itemHoveredOver || !loader.modelData.enabled ? "#cdd6f4" : "#45475a")
                                             font.family: "JetBrainsMono"
                                             font.bold: true
@@ -138,12 +155,34 @@ MouseArea {
                                         }
                                     }
 
-                                    Loader {
-                                        property Component subMenuList: Component {
-                                            ClippingWrapperRectangle {
-                                                implicitHeight: itemMouseArea.showSubMenu ? (subMenuColumn.implicitHeight + 8) : 0
+                                    PopupWindow {
+                                        anchor.window: root.bar
+                                        anchor.rect.x: root.subMenuPosition.x + root.x + root.parent.parent.x - 8
+                                        anchor.rect.y: root.subMenuPosition.y + root.y + root.bar.height / 3 - 8
+                                        anchor.rect.height: root.height
+                                        anchor.rect.width: root.width
+                                        implicitWidth: subMenuContainer.implicitWidth
+                                        implicitHeight: subMenuContainer.implicitHeight
+                                        color: "transparent"
+                                        visible: itemMouseArea.showSubMenu
+
+                                        MouseArea {
+                                            hoverEnabled: true
+                                            onExited: {
+                                                itemMouseArea.showSubMenu = false
+                                                root.subMenuOpen = false
+                                                var actualMousePos = mapToItem(menuMouseArea, mouseX, mouseY)
+                                                if(actualMousePos.x < 0 || actualMousePos.x > menuMouseArea.implicitWidth || actualMousePos.y < 0 || actualMousePos.y > menuMouseArea.implicitHeight) root.targetMenuOpen = false
+                                            }
+                                            implicitWidth: subMenuContainer.implicitWidth
+                                            implicitHeight: subMenuContainer.implicitHeight
+                                            Rectangle {
+                                                id: subMenuContainer
                                                 implicitWidth: subMenuColumn.implicitWidth
-                                                color: "#11111b"
+                                                implicitHeight: subMenuColumn.implicitHeight
+                                                color: "#1e1e2e"
+                                                border.color: "#a6e3a1"
+                                                border.width: 2
                                                 radius: 4
                                                 ColumnLayout {
                                                     id: subMenuColumn
@@ -174,25 +213,41 @@ MouseArea {
                                                                 onClicked: {
                                                                     subMenuLoader.modelData.triggered()
                                                                 }
-                                                                implicitWidth: (subMenuItemRow.implicitWidth + 8 < columnLayout.implicitWidth) ? columnLayout.implicitWidth : subMenuItemRow.implicitWidth + 8
+                                                                implicitWidth: (subMenuItemRow.implicitWidth + 8 < subMenuColumn.implicitWidth) ? subMenuColumn.implicitWidth : subMenuItemRow.implicitWidth + 8
                                                                 RowLayout {
                                                                     x: 4
                                                                     id: subMenuItemRow
                                                                     spacing: 4
                                                                     Loader {
                                                                         property Component icon: Component {
-                                                                            Image {
-                                                                                source: subMenuLoader.modelData.icon
-                                                                                sourceSize.height: 15
-                                                                                sourceSize.width: 15
+                                                                            Loader {
+                                                                                readonly property Component check: Component {
+                                                                                    Text {
+                                                                                        text: (subMenuLoader.modelData.checkState == Qt.Unchecked ? "󰄱" : "󰱒")
+                                                                                        color: (!itemMouseArea.itemHoveredOver || !loader.modelData.enabled ? "#cdd6f4" : "#45475a")
+                                                                                        font.family: "JetBrainsMono"
+                                                                                        font.bold: true
+                                                                                        font.pointSize: 10
+                                                                                    }
+                                                                                }
+
+                                                                                readonly property Component actualIcon: Component {
+                                                                                    IconImage {
+                                                                                        source: subMenuLoader.modelData.icon
+                                                                                        implicitHeight: 15
+                                                                                        implicitWidth: 15
+                                                                                    }
+                                                                                }
+
+                                                                                sourceComponent: subMenuLoader.modelData.buttonType != QsMenuButtonType.None ? check : actualIcon
                                                                             }
                                                                         }
 
-                                                                        sourceComponent: subMenuLoader.modelData.icon != "" ? icon : null
+                                                                        sourceComponent: subMenuLoader.modelData.icon != "" || subMenuLoader.modelData.buttonType != QsMenuButtonType.None ? icon : null
                                                                     }
                                                                     Text {
                                                                         id: subMenuItemText
-                                                                        text: subMenuLoader.modelData.text
+                                                                        text: subMenuLoader.modelData.text + (subMenuLoader.modelData.hasChildren ? " 󰇘" : "")
                                                                         color:  (!subMenuMouseArea.itemHoveredOver || !subMenuLoader.modelData.enabled ? "#cdd6f4" : "#45475a")
                                                                         font.family: "JetBrainsMono"
                                                                         font.bold: true
@@ -211,8 +266,6 @@ MouseArea {
                                                 }
                                             }
                                         }
-
-                                        sourceComponent: loader.modelData.hasChildren ? subMenuList : null
                                     }
                                 }
                                 
