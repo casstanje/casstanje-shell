@@ -15,7 +15,9 @@ MouseArea {
     property bool targetMenuOpen: false
     property var bar: root.QsWindow.window
     property var subMenuOpen: false
+    property var subSubMenuOpen: false
     property var subMenuPosition
+    property var subSubMenuPosition
     hoverEnabled: true
 
     Connections {
@@ -168,14 +170,21 @@ MouseArea {
 
                                         MouseArea {
                                             hoverEnabled: true
-                                            onExited: {
+                                            property var closeSubMenu: function(newMouseX, newMouseY) {
                                                 itemMouseArea.showSubMenu = false
                                                 root.subMenuOpen = false
-                                                var actualMousePos = mapToItem(menuMouseArea, mouseX, mouseY)
+                                                var actualMousePos = mapToItem(menuMouseArea, newMouseX != null ? newMouseX : mouseX, newMouseY != null ? newMouseY : mouseY)
                                                 if(actualMousePos.x < 0 || actualMousePos.x > menuMouseArea.implicitWidth || actualMousePos.y < 0 || actualMousePos.y > menuMouseArea.implicitHeight) root.targetMenuOpen = false
+                                            }
+                                            onExited: {
+                                                if(!root.subSubMenuOpen){
+                                                    closeSubMenu()
+                                                }
                                             }
                                             implicitWidth: subMenuContainer.implicitWidth
                                             implicitHeight: subMenuContainer.implicitHeight
+                                            property bool showSubSubMenu: false
+                                            id: subMenuRoot
                                             Rectangle {
                                                 id: subMenuContainer
                                                 implicitWidth: subMenuColumn.implicitWidth
@@ -206,12 +215,20 @@ MouseArea {
                                                                 id: subMenuMouseArea
                                                                 
                                                                 property bool itemHoveredOver: false
+                                                                property bool showSubSubMenu: false
                                                                 hoverEnabled: true
                                                                 onEntered: itemHoveredOver = true
                                                                 onExited: itemHoveredOver = false
                                                                 implicitHeight: subMenuItemRow.implicitHeight
-                                                                onClicked: {
-                                                                    subMenuLoader.modelData.triggered()
+                                                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                                                onClicked: function(mouse) {
+                                                                    if(subMenuLoader.modelData.hasChildren){
+                                                                        root.subSubMenuOpen = true
+                                                                        root.subSubMenuPosition = mapToItem(menuMouseArea, mouse.x, mouse.y)
+                                                                        showSubSubMenu = true
+                                                                    }else if(mouse.button == Qt.LeftButton){
+                                                                        subMenuLoader.modelData.triggered()
+                                                                    }
                                                                 }
                                                                 implicitWidth: (subMenuItemRow.implicitWidth + 8 < subMenuColumn.implicitWidth) ? subMenuColumn.implicitWidth : subMenuItemRow.implicitWidth + 8
                                                                 RowLayout {
@@ -224,7 +241,7 @@ MouseArea {
                                                                                 readonly property Component check: Component {
                                                                                     Text {
                                                                                         text: (subMenuLoader.modelData.checkState == Qt.Unchecked ? "󰄱" : "󰱒")
-                                                                                        color: (!itemMouseArea.itemHoveredOver || !loader.modelData.enabled ? "#cdd6f4" : "#45475a")
+                                                                                        color: (!subMenuMouseArea.itemHoveredOver || !subMenuLoader.modelData.enabled ? "#cdd6f4" : "#45475a")
                                                                                         font.family: "JetBrainsMono"
                                                                                         font.bold: true
                                                                                         font.pointSize: 10
@@ -254,9 +271,132 @@ MouseArea {
                                                                         font.pointSize: 10
                                                                     }
                                                                 }
+
+                                                                QsMenuOpener {
+                                                                    id: subSubMenuOpener
+                                                                    menu: subMenuLoader.modelData
+                                                                }
+
+                                                                
+
+                                                                PopupWindow {
+                                                                    anchor.window: root.bar
+                                                                    anchor.rect.x: root.subSubMenuPosition.x + root.x + root.parent.parent.x - 8
+                                                                    anchor.rect.y: root.subSubMenuPosition.y + root.y + root.bar.height / 3 - 8
+                                                                    anchor.rect.height: root.height
+                                                                    anchor.rect.width: root.width
+                                                                    implicitWidth: subSubMenuPosition.implicitWidth
+                                                                    implicitHeight: subSubMenuPosition.implicitHeight
+                                                                    color: "transparent"
+                                                                    visible: subMenuMouseArea.showSubSubMenu
+
+                                                                    MouseArea {
+                                                                        hoverEnabled: true
+                                                                        onExited: {
+                                                                            subMenuMouseArea.showSubSubMenu = false
+                                                                            root.subSubMenuOpen = false
+                                                                            var actualMousePos = mapToItem(subMenuRoot, mouseX, mouseY)
+                                                                            if(actualMousePos.x < 0 || actualMousePos.x > subMenuRoot.implicitWidth || actualMousePos.y < 0 || actualMousePos.y > subMenuRoot.implicitHeight) subMenuRoot.closeSubMenu(mouseX, mouseY)
+                                                                        }
+                                                                        implicitWidth: subSubMenuPosition.implicitWidth
+                                                                        implicitHeight: subSubMenuPosition.implicitHeight
+                                                                        Rectangle {
+                                                                            id: subSubMenuPosition
+                                                                            implicitWidth: subSubMenuColumn.implicitWidth
+                                                                            implicitHeight: subSubMenuColumn.implicitHeight
+                                                                            color: "#1e1e2e"
+                                                                            border.color: "#a6e3a1"
+                                                                            border.width: 2
+                                                                            radius: 4
+                                                                            ColumnLayout {
+                                                                                id: subSubMenuColumn
+                                                                                spacing: 4
+                                                                                Rectangle {
+                                                                                    implicitHeight: 0
+                                                                                }
+                                                                                Repeater {
+                                                                                    model: subSubMenuOpener.children
+                                                                                    Loader {
+                                                                                        required property var modelData
+                                                                                        id: subSubMenuLoader
+
+                                                                                        readonly property Component seperator: Rectangle {
+                                                                                            implicitHeight: 2
+                                                                                            implicitWidth: subMenuColumn.width
+                                                                                            color: "transparent"
+                                                                                        }
+
+                                                                                        readonly property Component text: MouseArea {
+                                                                                            id: subSubMenuMouseArea
+                                                                                            
+                                                                                            property bool itemHoveredOver: false
+                                                                                            hoverEnabled: true
+                                                                                            onEntered: itemHoveredOver = true
+                                                                                            onExited: itemHoveredOver = false
+                                                                                            implicitHeight: subSubMenuItemRow.implicitHeight
+                                                                                            onClicked: {
+                                                                                                subSubMenuLoader.modelData.triggered()
+                                                                                            }
+                                                                                            implicitWidth: (subSubMenuItemRow.implicitWidth + 8 < subSubMenuColumn.implicitWidth) ? subSubMenuColumn.implicitWidth : subSubMenuItemRow.implicitWidth + 8
+                                                                                            RowLayout {
+                                                                                                x: 4
+                                                                                                id: subSubMenuItemRow
+                                                                                                spacing: 4
+                                                                                                Loader {
+                                                                                                    property Component icon: Component {
+                                                                                                        Loader {
+                                                                                                            readonly property Component check: Component {
+                                                                                                                Text {
+                                                                                                                    text: (subSubMenuLoader.modelData.checkState == Qt.Unchecked ? "󰄱" : "󰱒")
+                                                                                                                    color: (!subSubMenuMouseArea.itemHoveredOver || !subSubMenuLoader.modelData.enabled ? "#cdd6f4" : "#45475a")
+                                                                                                                    font.family: "JetBrainsMono"
+                                                                                                                    font.bold: true
+                                                                                                                    font.pointSize: 10
+                                                                                                                }
+                                                                                                            }
+
+                                                                                                            readonly property Component actualIcon: Component {
+                                                                                                                IconImage {
+                                                                                                                    source: subSubMenuLoader.modelData.icon
+                                                                                                                    implicitHeight: 15
+                                                                                                                    implicitWidth: 15
+                                                                                                                }
+                                                                                                            }
+
+                                                                                                            sourceComponent: subSubMenuLoader.modelData.buttonType != QsMenuButtonType.None ? check : actualIcon
+                                                                                                        }
+                                                                                                    }
+
+                                                                                                    sourceComponent: subSubMenuLoader.modelData.icon != "" || subSubMenuLoader.modelData.buttonType != QsMenuButtonType.None ? icon : null
+                                                                                                }
+                                                                                                Text {
+                                                                                                    id: subSubMenuItemText
+                                                                                                    text: subSubMenuLoader.modelData.text
+                                                                                                    color:  (!subSubMenuMouseArea.itemHoveredOver || !subSubMenuLoader.modelData.enabled ? "#cdd6f4" : "#45475a")
+                                                                                                    font.family: "JetBrainsMono"
+                                                                                                    font.bold: true
+                                                                                                    font.pointSize: 10
+                                                                                                }
+                                                                                            }
+                                                                                        }
+
+                                                                                        sourceComponent: modelData.isSeparator ? seperator : text
+                                                                                    }
+                                                                                    
+                                                                                }
+                                                                                Rectangle {
+                                                                                    implicitHeight: 0
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                }
                                                             }
 
                                                             sourceComponent: modelData.isSeparator ? seperator : text
+
+                                                            
                                                         }
                                                         
                                                     }
@@ -266,6 +406,7 @@ MouseArea {
                                                 }
                                             }
                                         }
+
                                     }
                                 }
                                 
