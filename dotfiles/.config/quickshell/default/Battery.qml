@@ -12,7 +12,7 @@ Rectangle {
     radius: 4
     gradient: Gradient {
         orientation: Gradient.Horizontal
-        GradientStop { position: UPower.displayDevice.percentage; color: UPower.displayDevice.changeRate < 0 ? "#80f38ba8" : "#80a6e3a1" }
+        GradientStop { position: UPower.displayDevice.percentage; color: UPower.displayDevice.state == UPowerDeviceState.PendingDischarge | UPowerDeviceState.Discharging  ? "#80f38ba8" : "#80a6e3a1" }
         GradientStop { position: UPower.displayDevice.percentage + 0.01; color: "transparent" }
     }
 
