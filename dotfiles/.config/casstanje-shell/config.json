@@ -1,0 +1,175 @@
+{
+  "catppuccinflavor": "green",
+  "defaultApps": {
+    "browser": "zen-browser",
+    "terminal": "kitty",
+    "filemanager": "nemo",
+    "editor": "code"
+  },
+  "barConfig": {
+    "left modules": {
+      "start menu enabled": {
+        "name": "startMenuEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      },
+      "show laptop battery": {
+        "name": "showLaptopBattery",
+        "type": "bool",
+        "value": "true",
+        "description": "Automatically hidden if not on laptop. Also includes a menu with options for screen brightness and power profiles"
+      },
+      "show power menu": {
+        "name": "showPowerMenu",
+        "type": "bool",
+        "value": "true",
+        "description": "If the computer is NOT a laptop and this is true, the battery indicator gets switched out with a power menu where you can switch power profile and screen brightness (if your system supports that)."
+      },
+      "volume enabled": {
+        "name": "volumeEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      }
+    },
+    "center modules": {
+      "mpris bar enabled": {
+        "name": "mprisBarEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": "Whether the mpris media player should be enabled or not"
+      }
+    },
+    "right modules": {
+      "system tray enabled": {
+        "name": "sysTrayEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      },
+      "notifications enabled": {
+        "name": "notificationsEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      },
+      "clock enabled": {
+        "name": "clockEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      }
+    },
+    "module settings": {
+      "clock": {
+        "date time format": {
+          "name": "dateTimeFormat",
+          "type": "string",
+          "value": "ddd dd/MM/yy | hh:mm:ss",
+          "description": "Look up the Qt Date Time documentation for help",
+          "subcategory": true
+        }
+      },
+      "system tray": {
+        "tray icon size": {
+          "name": "trayIconSize",
+          "type": "int",
+          "value": "15",
+          "description": "Maximum of 18 (if you want them to actually fit in the container lol)",
+          "subcategory": true
+        }
+      },
+      "notifications": {
+        "notification duration": {
+          "name": "notificationDuration",
+          "type": "int",
+          "value": "3500",
+          "description": "Notification popup duration in milliseconds",
+          "subcategory": true
+        }
+      },
+      "battery": {
+        "show battery charge outline": {
+          "name": "showBatteryChargeOutline",
+          "type": "bool",
+          "value": "true",
+          "description": "Shows an outline around the battery indicator that's filled in according to the charge percentage",
+          "subcategory": true
+        },
+        "enable power profile control": {
+          "name": "enablePowerProfileControl",
+          "type": "bool",
+          "value": "true",
+          "description": "Enables a menu on the battery module, that allows you to change the power profile of your pc. You need to have the power-profiles-daemon installed and running for it to work. Gets disabled automatically if the daemon doesn't exist.",
+          "subcategory": true
+        },
+        "enable brightness control": {
+          "name": "enableBrightnessControl",
+          "type": "bool",
+          "value": "true",
+          "description": "Adds a slider for brightnessctl to the power menu. Also enables the menu if power profile control isn't enabled. Gets disabled automatically if brightnessctl isn't found.",
+          "subcategory": true
+        },
+        "backlight device name": {
+          "name": "backlightDeviceName",
+          "type": "string",
+          "value": "intel_backlight",
+          "description": "The device you would like the brightness slider to affect. This varies from device to device, but the most common seems to be 'intel_backlight'.",
+          "subcategory": true
+        }
+      },
+      "mpris": {
+        "album art menu size": {
+          "name": "albumArtMenuSize",
+          "type": "int",
+          "value": "250",
+          "description": "The size of the album art in the media player menu",
+          "subcategory": true
+        },
+        "show album art": {
+          "name": "showAlbumArt",
+          "type": "bool",
+          "value": "true",
+          "description": "Whether to show album art in the bar or not",
+          "subcategory": true
+        },
+        "show position": {
+          "name": "showPosition",
+          "type": "bool",
+          "value": "true",
+          "description": "Whether to show an outline around the media player that gets filled up according to the song progress",
+          "subcategory": true
+        },
+        "maximum width": {
+          "name": "maximumWidth",
+          "type": "int",
+          "value": "0",
+          "description": "The maximum width of the media player's text in integers. The clipped text gets elided with three . (dots) If empty or zero, the media player will have a maximum width equals to one third of the full bar",
+          "subcategory": true
+        },
+        "show shuffle button": {
+          "name": "showShuffleButton",
+          "type": "bool",
+          "value": "false",
+          "description": "Does not work with most media players, so is disabled by default",
+          "subcategory": true
+        },
+        "show repeat button": {
+          "name": "showRepeatButton",
+          "type": "bool",
+          "value": "false",
+          "description": "Does not work with most media players, so is disabled by default",
+          "subcategory": true
+        },
+        "show volume slider": {
+          "name": "showVolumeSlider",
+          "type": "bool",
+          "value": "false",
+          "description": "Does not work with most media players, so is disabled by default",
+          "subcategory": true
+        }
+      }
+    }
+  }
+}

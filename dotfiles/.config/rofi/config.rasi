@@ -1,12 +1,10 @@
-// @import "catppuccin-latte"
-// @import "catppuccin-frappe"
-// @import "catppuccin-macchiato"
 @import "catppuccin-mocha"
 
 * {
+  accent: @green;
   selected-active-foreground:  @background;
-  lightfg:                     @green;
-  separatorcolor:              @foreground;
+  lightfg:                     @text;
+  separatorcolor:              transparent;
   urgent-foreground:           @red;
   alternate-urgent-background: @lightbg;
   lightbg:                     @mantle;
@@ -18,25 +16,26 @@
   spacing:                     2;
   alternate-normal-foreground: @foreground;
   urgent-background:           @background;
-  selected-normal-foreground:  @lightbg;
-  active-foreground:           @green;
+  selected-normal-foreground:  @accent;
+  active-foreground:           @blue;
   background:                  @base;
-  selected-active-background:  @green;
+  selected-active-background:  @blue;
   active-background:           @background;
-  selected-normal-background:  @lightfg;
+  selected-normal-background:  @background;
   alternate-normal-background: @lightbg;
-  foreground:                  @green;
-  selected-urgent-foreground:  @background;
+  foreground:                  @text;
+  selected-urgent-foreground:  @foreground;
   normal-foreground:           @foreground;
   alternate-urgent-foreground: @red;
-  alternate-active-foreground: @green;
+  alternate-active-foreground: @blue;
 
 }
 element {
-    padding: 1px ;
+    padding: 6px ;
     cursor:  pointer;
     spacing: 5px ;
     border:  0;
+    border-radius: 4px;
 }
 element normal.normal {
     background-color: @normal-background;
@@ -50,21 +49,11 @@ element normal.active {
     background-color: @active-background;
     text-color:       @active-foreground;
 }
-element selected.normal {
+element selected {
+    border: 2px;
+    border-color: @accent;
     background-color: @selected-normal-background;
     text-color:       @selected-normal-foreground;
-}
-element selected.urgent {
-    background-color: @selected-urgent-background;
-    text-color:       @selected-urgent-foreground;
-}
-element selected.active {
-    background-color: @selected-active-background;
-    text-color:       @selected-active-foreground;
-}
-element alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
 }
 element alternate.urgent {
     background-color: @alternate-urgent-background;
@@ -87,10 +76,11 @@ element-icon {
     text-color:       inherit;
 }
 window {
-  padding:          5;
-  background-color: @background;
-  border:           2;
-  border-radius: 6px;
+    padding:          5;
+    background-color: @background;
+    border:           2;
+    border-color: @accent;
+    border-radius: 4px;
 }
 mainbox {
     padding: 0;
@@ -117,7 +107,7 @@ scrollbar {
     padding:      0;
     handle-width: 8px ;
     border:       0;
-    handle-color: @normal-foreground;
+    handle-color: @accent;
 }
 sidebar {
     border-color: @separatorcolor;
