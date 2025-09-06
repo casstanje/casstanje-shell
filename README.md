@@ -18,6 +18,7 @@ Specifically:
 - [GTK](https://github.com/catppuccin/gtk)
 - [Kvantum](https://github.com/catppuccin/Kvantum) (QT)
 - [Rofi](https://github.com/catppuccin/rofi)
+- [Kitty](https://github.com/catppuccin/kitty)
 ## Features
 ### Customization GUI (Casstanje Shell Customizer)
 A simple quickshell GUI that allows you to change the catppuccin flavor and bar layout, as well as the apps you want the keybinds to open
