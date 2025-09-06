@@ -1,11 +1,12 @@
 # Casstanje's Catppuccin Mocha Hyprland Shell for Arch Linux
 
 
-
+## Gallery
 https://github.com/user-attachments/assets/4fe29e24-b444-4ee1-a55b-e62b9d6c4cf4
 
-![red catppuccin flavor](assets/screenshots/red.png "red catppuccin flavor")
-![green catppuccin flavor](assets/screenshots/green.png "green catppuccin flavor")
+| ![](assets/screenshots/red.png "red catppuccin flavor") | ![](assets/screenshots/green.png "green catppuccin flavor") |
+:-------------------------------------------------------: | :-----------------------------------------------------------:
+
 ![mauve catppuccin flavor with rofi open](assets/screenshots/mauve_rofi.png "mauve catppuccin flavor with rofi open")
 ---
 A flat, simple rice for hyprland based on catppuccin mocha.
@@ -18,6 +19,7 @@ Specifically:
 - [GTK](https://github.com/catppuccin/gtk)
 - [Kvantum](https://github.com/catppuccin/Kvantum) (QT)
 - [Rofi](https://github.com/catppuccin/rofi)
+- [Kitty](https://github.com/catppuccin/kitty)
 ## Features
 ### Customization GUI (Casstanje Shell Customizer)
 A simple quickshell GUI that allows you to change the catppuccin flavor and bar layout, as well as the apps you want the keybinds to open
@@ -90,6 +92,14 @@ The installation scripts takes care of these, but if you wanna install the confi
     - [power-profiles-daemon](https://archlinux.org/packages/extra/x86_64/power-profiles-daemon/)
     - [brightnessctl](https://archlinux.org/packages/extra/x86_64/brightnessctl/)
 
+## TODO
+### Bugs
+- Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
+- Notifications are still shown in the menu even when dnd is on
+- Some text is a little blurry, for some reason. It might be because of the renderType of the text. According to the QML manual, the default renderType can look bad on large scales, which might be the issue here
+### Others
+- Implement the catppuccin sddm theme, which should also follow the system flavor
+- User icon using AccountService instead of my "custom" "implementation"
 
 ## FAQ
 ### Why rofi?? Are you too lazy to make your own app launcher?????
