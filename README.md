@@ -91,6 +91,13 @@ The installation scripts takes care of these, but if you wanna install the confi
     - [power-profiles-daemon](https://archlinux.org/packages/extra/x86_64/power-profiles-daemon/)
     - [brightnessctl](https://archlinux.org/packages/extra/x86_64/brightnessctl/)
 
+## TODO
+### Bugs
+- Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
+- Notifications are still shown in the menu even when dnd is on
+### Others
+- Greetd support, with theming that follows the system flavor using nwg-hello
+- User icon using AccountService instead of my "custom" "implementation"
 
 ## FAQ
 ### Why rofi?? Are you too lazy to make your own app launcher?????
