@@ -1,11 +1,12 @@
 # Casstanje's Catppuccin Mocha Hyprland Shell for Arch Linux
 
 
-
+## Gallery
 https://github.com/user-attachments/assets/4fe29e24-b444-4ee1-a55b-e62b9d6c4cf4
 
-![red catppuccin flavor](assets/screenshots/red.png "red catppuccin flavor")
-![green catppuccin flavor](assets/screenshots/green.png "green catppuccin flavor")
+| ![](assets/screenshots/red.png "red catppuccin flavor") | ![](assets/screenshots/green.png "green catppuccin flavor") |
+:-------------------------------------------------------: | :-----------------------------------------------------------:
+
 ![mauve catppuccin flavor with rofi open](assets/screenshots/mauve_rofi.png "mauve catppuccin flavor with rofi open")
 ---
 A flat, simple rice for hyprland based on catppuccin mocha.
@@ -96,7 +97,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 - Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
 - Notifications are still shown in the menu even when dnd is on
 ### Others
-- Greetd support, with theming that follows the system flavor using nwg-hello
+- Implement the catppuccin sddm theme, which should also follow the system flavor
 - User icon using AccountService instead of my "custom" "implementation"
 
 ## FAQ
