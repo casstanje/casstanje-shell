@@ -69,6 +69,8 @@ ClippingRectangle {
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: Theme.fontSize
+                renderType: Text.QtRendering
+                renderTypeQuality: Text.VeryHighRenderTypeQuality
             }
         }
 

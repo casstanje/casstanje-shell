@@ -96,7 +96,6 @@ The installation scripts takes care of these, but if you wanna install the confi
 ### Bugs
 - Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
 - Notifications are still shown in the menu even when dnd is on
-- Some text is a little blurry, for some reason. It might be because of the renderType of the text. According to the QML manual, the default renderType can look bad on large scales, which might be the issue here
 ### Others
 - Implement the catppuccin sddm theme, which should also follow the system flavor
 - User icon using AccountService instead of my "custom" "implementation"
