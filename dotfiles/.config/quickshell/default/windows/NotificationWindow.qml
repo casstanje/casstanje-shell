@@ -137,17 +137,20 @@ PopupWindow {
                                         }
                                     }
                                     RowLayout {
+					Layout.maximumWidth: 250
                                         ClippingRectangle {
+					    Layout.alignment: Qt.AlignTop
                                             visible: notif.modelData.image != ""
                                             color: "transparent"
                                             id: imageContainer
                                             implicitHeight: contentColumn.height
-                                            implicitWidth: implicitHeight
+					    Layout.maximumHeight: 60
+                                            implicitWidth: height
                                             radius: Theme.borderRadius
                                             Image {
                                                 source: notif.modelData.image
-                                                height: imageContainer.implicitHeight
-                                                width: imageContainer.implicitHeight
+                                                height: imageContainer.height
+                                                width: imageContainer.height
                                                 fillMode: Image.PreserveAspectCrop
                                             }
                                         }
@@ -161,7 +164,7 @@ PopupWindow {
                                                 font.pointSize: Theme.fontSize
                                                 wrapMode: Text.Wrap
                                                 elide: Text.ElideRight
-                                                Layout.maximumWidth: 150
+                                                Layout.fillWidth: true
                                             }
                                             Text {
                                                 visible: notif.modelData.body != ""
