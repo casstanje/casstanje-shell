@@ -28,5 +28,7 @@ Singleton {
 
             if(!trackedPlayerStillExists) trackedPlayer = null
         }
+
+        identities = players.map((x) => x.identity)
     }
 }

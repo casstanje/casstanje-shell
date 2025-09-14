@@ -16,6 +16,8 @@ Singleton {
     // power menu where you can switch power profile and screen brightness (if your system supports that).
     property bool showPowerMenu: true
     property bool volumeEnabled: true
+    property bool memEnabled: true
+    property bool cpuEnabled: true
 
     // Center Side
     property bool mprisBarEnabled: true
@@ -29,7 +31,7 @@ Singleton {
 
     //Clock
     // https://doc.qt.io/qt-6/qml-qtqml-qt.html#formatDateTime-method
-    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm"
+    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm:ss"
 
     // System Tray
     // Maximum of 18 (if you want them to actually fit in the container lol)

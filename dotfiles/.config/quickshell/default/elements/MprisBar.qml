@@ -151,8 +151,8 @@ RowLayout {
                 leftMargin: Theme.containerPadding * 2
                 rightMargin: Theme.containerPadding * 2
                 radius: Theme.borderRadius
-                border.width: Theme.smallBorderWidth
-                border.color: Theme.surface
+                border.width: mediaString.showPosition ? 0 : Theme.smallBorderWidth
+                border.color: mediaString.showPosition ? "transparent" : Theme.surface
                 Text {
                     text: root.constructedMediaString
                     color: Theme.text
@@ -200,5 +200,6 @@ RowLayout {
         button: root
 
         activePlayer: root.activePlayer
+        players: root.players
     }
 }

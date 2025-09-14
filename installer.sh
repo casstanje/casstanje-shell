@@ -24,6 +24,7 @@ PACKAGE_LIST=(
     "hyprpolkitagent"
     "hyprland-qt-support"
     "hyprcursor"
+    "fastfetch"
     "hyprland-qtutils"
     "nwg-displays"
     "quickshell"

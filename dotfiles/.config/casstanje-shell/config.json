@@ -31,6 +31,18 @@
         "type": "bool",
         "value": "true",
         "description": ""
+      },
+      "cpu usage enabled": {
+        "name": "cpuEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
+      },
+      "memory usage enabled": {
+        "name": "memEnabled",
+        "type": "bool",
+        "value": "true",
+        "description": ""
       }
     },
     "center modules": {

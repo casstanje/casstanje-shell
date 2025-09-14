@@ -53,6 +53,7 @@ ClippingRectangle {
                     (root.brightnessctlExists && Config.enableBrightnessControl)
             cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
+            hasBorder: !Config.showBatteryChargeOutline
 
             onClicked: {
                 root.showWindow = true

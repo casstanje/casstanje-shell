@@ -79,7 +79,7 @@ PopupWindow {
                         onItemRemoved: checkForNotifs()
                         Container {
                             required property var modelData
-                            visible: !modelData.transient && !modelData.lastGeneration
+                            visible: !modelData.transient && !modelData.lastGeneration && !root.dnd
                             id: notif
                             margin: 8
                             border.width: 2

@@ -59,6 +59,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 - [pavucontrol-qt](https://archlinux.org/packages/extra/x86_64/pavucontrol-qt/)
 - [imagemagick](https://archlinux.org/packages/?name=imagemagick)
 - [qt6ct](https://archlinux.org/packages/extra/x86_64/qt6ct/)
+- [fastfetch](https://archlinux.org/packages/extra/x86_64/fastfetch/)
 - [kvantum](https://archlinux.org/packages/extra/x86_64/kvantum/)
     - [kvantum-theme-catppuccin-git](https://aur.archlinux.org/packages/kvantum-theme-catppuccin-git)
 - [hyprland](https://wiki.hypr.land/Getting-Started/Installation/)
@@ -95,9 +96,8 @@ The installation scripts takes care of these, but if you wanna install the confi
 ## TODO
 ### Bugs
 - Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
-- Notifications are still shown in the menu even when dnd is on
 ### Others
-- Implement the catppuccin sddm theme, which should also follow the system flavor
+- Implement the catppuccin where_is_my_sddm theme as part of the installation as an optional thing
 - User icon using AccountService instead of my "custom" "implementation"
 
 ## FAQ
@@ -105,7 +105,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 Rofi has a bunch of extensions that I like to use (hyprland binds, emojis, clipboard history and more), plus it's customizable enough for this shell's needs. And yes, i'm lazy, but *shhhh*
 
 ### Can I add more apps to follow the system theme?
-Yea, but you'll have to do some bash scripting. In ```$HOME/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too
+Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too
 
 ### Bar config?
 You can edit the bar using the Casstanje Shell Customizer or (this is not recommended, as it might break the shell if done incorrecly) by manually editing ```$HOME/.config/casstanje-shell/config.json``` and running ```$HOME/.config/casstanje-shell/apply-bar-config.sh```

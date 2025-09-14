@@ -11,6 +11,7 @@ import Quickshell.Services.Mpris
 PopupWindow {
     id: root
     required property MprisPlayer activePlayer
+    required property list<MprisPlayer> players
     required property ShellScreen screen
     required property var barRoot
     required property var button
@@ -18,13 +19,19 @@ PopupWindow {
     property var onEnteredCallback: function(){}
     property var onExitedCallback: function(){}
     property bool shouldUpdatePlayer: true
-    onActivePlayerChanged: {
+    function updateMenu() {
         shouldUpdatePlayer = false
         playerWheel.newValue = activePlayer.identity
         playerWheel.currentIndex = MprisController.identities.indexOf(activePlayer.identity)
         playerWheel.model = MprisController.identities
         playerWheel.changeValue(true)
         shouldUpdatePlayer = true
+    }
+    onActivePlayerChanged: {
+        updateMenu()
+    }
+    onPlayersChanged: {
+        updateMenu()
     }
     color: "transparent"
     implicitHeight: screen.height
