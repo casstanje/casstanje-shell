@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Widgets
 import "./../"
-import "./../functions"
+import "./../singletons"
 import "./../elements"
 
 PopupWindow {
@@ -57,6 +57,7 @@ PopupWindow {
                     RowLayout {
                         spacing: 8
                         ColumnLayout {
+                            visible: UserInfo.face != "false"
                             spacing: 4
                             ClippingRectangle {
                                 Layout.alignment: Qt.AlignHCenter

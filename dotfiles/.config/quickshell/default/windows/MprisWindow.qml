@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import './../'
 import './../elements/'
-import './../functions/'
+import './../singletons/'
 import Quickshell.Services.Mpris
 
 PopupWindow {

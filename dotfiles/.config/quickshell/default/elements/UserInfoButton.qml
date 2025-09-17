@@ -5,7 +5,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Widgets
 import "./../"
-import "./../functions"
+import "./../singletons"
 import "./../windows"
 
 WrapperMouseArea {
@@ -89,7 +89,7 @@ WrapperMouseArea {
                     }
                 }
 
-                sourceComponent: root.faceExists != "false" ? image : icon
+                sourceComponent: UserInfo.face != "false" ? image : icon
             }
             
             Text {

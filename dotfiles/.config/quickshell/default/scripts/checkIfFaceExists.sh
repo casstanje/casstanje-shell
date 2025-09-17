@@ -1,18 +1,14 @@
 #!/bin/bash
-eitherExists=false
-
-if [ -e "$HOME/face.png" ]; then
-    eitherExists=true
-    filePath="$HOME/face.png"
-elif [ -e "$HOME/face.jpeg" ]; then
-    eitherExists=true
-    filePath="$HOME/face.jpeg"
-elif [ -e "$HOME/face.jpg" ]; then
-    eitherExists=true
-    filePath="$HOME/face.jpg"
+exists=false
+filePath="$HOME/.face"
+if [ -e "$filePath" ]; then
+    identifyRes="$(identify -format "%m" $HOME/.face)"
+    if echo "$identifyRes" | grep -q "JPEG" || echo "$identifyRes" | grep "PNG" ; then
+        exists=true
+    fi
 fi
 
-if $eitherExists; then
+if $exists; then
     width=$(identify -format "%w\n" "$filePath")
     height=$(identify -format "%h\n" "$filePath")
     width=$((width))

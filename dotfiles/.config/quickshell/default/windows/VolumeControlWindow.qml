@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell.Widgets
 import "./../"
-import "./../functions"
+import "./../singletons"
 import "./../elements"
 
 PopupWindow {

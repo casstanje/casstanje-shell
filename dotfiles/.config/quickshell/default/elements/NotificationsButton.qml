@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import "./"
 import "./../"
 import "./../windows/"
-import "./../functions/"
+import "./../singletons/"
 
 ClickableContainer {
     id: root

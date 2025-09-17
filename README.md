@@ -1,6 +1,5 @@
 # Casstanje's Catppuccin Mocha Hyprland Shell for Arch Linux
 
-
 ## Gallery
 https://github.com/user-attachments/assets/4fe29e24-b444-4ee1-a55b-e62b9d6c4cf4
 
@@ -96,9 +95,9 @@ The installation scripts takes care of these, but if you wanna install the confi
 ## TODO
 ### Bugs
 - Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
-### Others
-- Implement the catppuccin where_is_my_sddm theme as part of the installation as an optional thing
-- User icon using AccountService instead of my "custom" "implementation"
+### Features
+- Implement a greeter as an optional part of the installation
+- Update script, that doesn't overwrite the users existing config while applying new features
 
 ## FAQ
 ### Why rofi?? Are you too lazy to make your own app launcher?????
@@ -109,3 +108,6 @@ Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-sh
 
 ### Bar config?
 You can edit the bar using the Casstanje Shell Customizer or (this is not recommended, as it might break the shell if done incorrecly) by manually editing ```$HOME/.config/casstanje-shell/config.json``` and running ```$HOME/.config/casstanje-shell/apply-bar-config.sh```
+
+### How do i change / add my profile image?
+To change (or add) a profile image, create image in either the JPEG or PNG format that's under 400x400px, rename it to .face and place it in your home folder.

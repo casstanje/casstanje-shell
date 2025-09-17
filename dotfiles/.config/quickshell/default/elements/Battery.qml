@@ -7,7 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import './'
 import './../'
-import './../functions/'
+import './../singletons/'
 import './../windows/'
 
 ClippingRectangle {

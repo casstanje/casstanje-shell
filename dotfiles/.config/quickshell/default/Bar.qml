@@ -11,7 +11,7 @@ import Quickshell.Services.Pipewire
 
 import "./windows/"
 import "./elements/"
-import "./functions/"
+import "./singletons/"
 import "./systray/"
 
 Scope {

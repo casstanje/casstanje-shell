@@ -6,7 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import "./elements/"
-import "./functions/"
+import "./singletons/"
 
 FloatingWindow {
     title: "casstanje shell customizer"
@@ -385,7 +385,7 @@ FloatingWindow {
                     }
 
                     Text {
-                        text: "a profile image for hyprlock and the start menu can be added at the path below. the image must be under 400x400 pixels, and be a .png, .jpg or .jpeg"
+                        text: "a profile image for hyprlock and the start menu can be added at the path below. the image must be under 400x400 pixels, and be a PNG or JPEG"
                         color: Theme.text
                         font.family: Theme.fontFamily
                         font.pointSize: Theme.fontSize
@@ -401,7 +401,7 @@ FloatingWindow {
                             color: Theme.darkerBackground
                             TextInput {
                                 padding: 8
-                                text: "~/face.<file-extension>"
+                                text: "~/.face"
                                 color: Theme.text
                                 font.family: Theme.fontFamily
                                 font.pointSize: Theme.fontSize

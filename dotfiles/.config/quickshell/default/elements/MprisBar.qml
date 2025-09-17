@@ -1,5 +1,5 @@
 import './../'
-import './../functions/'
+import './../singletons/'
 import './../elements/'
 import './../windows/'
 import Quickshell

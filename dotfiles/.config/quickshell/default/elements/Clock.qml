@@ -3,7 +3,7 @@ import Quickshell.Io
 import Quickshell
 import Quickshell.Widgets
 import "./../"
-import "./../functions/"
+import "./../singletons/"
 import "./"
 
 Container {

@@ -31,7 +31,7 @@ Singleton {
 
     //Clock
     // https://doc.qt.io/qt-6/qml-qtqml-qt.html#formatDateTime-method
-    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm:ss"
+    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm"
 
     // System Tray
     // Maximum of 18 (if you want them to actually fit in the container lol)
