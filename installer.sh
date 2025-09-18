@@ -28,7 +28,7 @@ PACKAGE_LIST=(
     "hyprland-qtutils"
     "nwg-displays"
     "quickshell"
-    "rofi-wayland"
+    "rofi"
     "zen-browser"
     "kitty"
     "nemo"
@@ -159,9 +159,41 @@ main() {
         echo "Files have been backed up at $BD"
     fi
 
+    echo
+    if $(yaeNae "Install and setup greetd-regreet with catppuccin theming? THIS OVERWRITES YOUR CURRENT GREETD CONFIG (if you have one, ofc)" "n")
+    then
+	installPackage "greetd"
+	installPackage "greetd-regreet"
+	cd "$SCRIPT_DIR"
+        sudo cp -r etc/greetd /etc/greetd
+	flavor=""
+	while [ "$flavor" == "" ] ; do
+		read -p "Please choose your preffered ctp flavor (fx. \"green\" or \"mauve\" and so forth): " tempFlavor
+		IFS=' ' read -ra FLAVORS <<< "blue flamingo green lavender maroon mauve peach pink red rosewater sapphire sky teal yellow"
+		if [[ " ${FLAVORS[*]} " =~ [[:space:]]${tempFlavor}[[:space:]] ]]; then
+			flavor="$tempFlavor"
+		else
+			echo "Flavor not valid. Try again"
+			echo
+		fi
+	done
+	sudo sed -i "/theme_name =/c\\theme_name = \"catppuccin-mocha-${flavor}-standard+default\"" /etc/greetd/regreet.toml
+	sudo systemctl enable greetd
+	echo
+	if $(yaeNae "Make regreet follow future flavor changes? This will ask for sudo priviliges each time you change the flavor from the shell customizer" "y")
+	then
+		cd $SCRIPT_DIR
+		SETTER_DIR="$HOME/.config/casstanje-shell/catppuccin_flavor_setters"
+		if ! [ -d "$SETTER_DIR" ]; then
+			mkdir -p "$SETTER_DIR"
+		fi
+		cp extra-setters/regreet-setter.sh "$SETTER_DIR"
+	fi
+    fi
+
     printf '\n-\nInstalling config...\n'
     cd $SCRIPT_DIR
-    cp -rf dotfiles/. $HOME/
+    # cp -rf dotfiles/. $HOME/
 
     printf '\n-\nInstalling casstanje shell customizer\n'
     cd $SCRIPT_DIR

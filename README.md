@@ -96,8 +96,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 ### Bugs
 - Powerprofile wheel doesn't update correctly, and glitches out sometimes. It works as it should, but visually... not so much
 ### Features
-- Implement a greeter as an optional part of the installation
-- Update script, that doesn't overwrite the users existing config while applying new features
+- Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 
 ## FAQ
 ### Why rofi?? Are you too lazy to make your own app launcher?????
