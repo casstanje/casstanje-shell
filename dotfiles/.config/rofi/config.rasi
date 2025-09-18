@@ -21,7 +21,7 @@
   background:                  @base;
   selected-active-background:  @blue;
   active-background:           @background;
-  selected-normal-background:  @background;
+  selected-normal-background:  @surface0;
   alternate-normal-background: @lightbg;
   foreground:                  @text;
   selected-urgent-foreground:  @foreground;
@@ -50,8 +50,8 @@ element normal.active {
     text-color:       @active-foreground;
 }
 element selected {
-    border: 2px;
-    border-color: @accent;
+    border: 0px;
+    border-color: @selected-normal-foreground;
     background-color: @selected-normal-background;
     text-color:       @selected-normal-foreground;
 }

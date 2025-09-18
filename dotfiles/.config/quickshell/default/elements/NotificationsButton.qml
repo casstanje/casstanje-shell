@@ -54,7 +54,7 @@ ClickableContainer {
 
         Text {
             text: root.dnd ? "" : "" // Nerd Icons, nf-fa-bell_slash : nf-fa-bell
-            color: Theme.text
+            color: notifWindow.anyNotifications && !notifWindow.dnd ? Theme.error : Theme.text
             font.family: Theme.fontFamily
             font.pointSize: Theme.fontSize
         }
@@ -81,6 +81,7 @@ ClickableContainer {
         
 
         NotificationWindow {
+            id: notifWindow
             visible: root.showWindow
             notifications: notifServer.trackedNotifications
             onEnteredCallback: function(){
