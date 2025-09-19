@@ -39,7 +39,7 @@ ClickableContainer {
             root.windowPosition = mapToItem(root.barRoot, root.x, root.y)
             root.showWindow = true
             UIVars.closePopupFunctions.push(function():Boolean{ 
-                if(!root.windowHoveredOver && !root.hoveredOver){
+                if(!root.windowHoveredOver && !root.hoveredOver && !notifWindow.keepOpen){
                     root.showWindow = false
                     return true
                 }else return false
@@ -204,13 +204,13 @@ ClickableContainer {
                                 text: root.currentNotification.appName
                                 color: Theme.text
                                 font.family: Theme.fontFamily
-                                font.pointSize: Theme.fontSize * 1.1
-                                font.bold: true
+                                font.pointSize: Theme.fontSize * 1.05
+                                font.bold: false
                             }
                         }
                         Text {
                             text: root.currentNotification.body == "" ? root.currentNotification.summary : root.currentNotification.body
-                            color: Theme.text
+                            color: Theme.subtext
                             font.family: Theme.fontFamily
                             font.pointSize: Theme.fontSize
                             wrapMode: Text.NoWrap

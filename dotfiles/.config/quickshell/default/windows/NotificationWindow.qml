@@ -15,6 +15,7 @@ PopupWindow {
     property var onExitedCallback: function() {}
     property bool anyNotifications: false
     property bool dnd: false 
+    property bool keepOpen: false
     property var barRoot
     property var button
     property int notifCount: 0
@@ -88,6 +89,7 @@ PopupWindow {
                         contentWidth: columnLayout.width
                         implicitHeight: root.dnd ? 0 : (columnLayout.height >  600 ? 600 : columnLayout.height)
                         implicitWidth: root.dnd ? 0 : columnLayout.width
+                        ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
 
                         ColumnLayout {
@@ -112,15 +114,13 @@ PopupWindow {
                                 }
                                 onItemAdded: checkForNotifs()
                                 onItemRemoved: checkForNotifs()
-                                Container {
+                                ColumnLayout {
                                     required property var modelData
                                     visible: !modelData.transient && !modelData.lastGeneration
                                     id: notif
-                                    margin: 8
-                                    border.width: 2
-                                    border.color: Theme.brightSurface
-                                    Layout.minimumWidth: 250
                                     RowLayout {
+                                        Layout.minimumWidth: 250
+                                        Layout.maximumWidth: 250
                                         ColumnLayout {
                                             RowLayout {
                                                 visible: appName.visible
@@ -129,8 +129,8 @@ PopupWindow {
                                                 RowLayout {
                                                     spacing: 6
                                                     IconImage {
-                                                        Layout.alignment: Qt.AlignVCenter
                                                         visible: notif.modelData.appIcon != ""
+                                                        Layout.alignment: Qt.AlignVCenter
                                                         id: appIcon
                                                         source: "file://" + notif.modelData.appIcon
                                                         implicitSize: 15
@@ -142,7 +142,7 @@ PopupWindow {
                                                         color: Theme.text
                                                         font.family: Theme.fontFamily
                                                         font.pointSize: Theme.fontSize * 1.05
-                                                        font.bold: true
+                                                        font.bold: false
                                                     }
                                                 }
                                                 Rectangle {
@@ -218,6 +218,7 @@ PopupWindow {
                                                             id: actionsRepeater
                                                             model: notif.modelData.actions
                                                             ClickableContainer {
+                                                                visible: actionContainer.modelData.text != ""
                                                                 Layout.fillWidth: true
                                                                 required property var modelData
                                                                 id: actionContainer
@@ -249,6 +250,12 @@ PopupWindow {
                                         }
                                     }
 
+                                    Rectangle {
+                                        Layout.fillWidth: true
+                                        implicitHeight: 2
+                                        radius: 1
+                                        color: Theme.surface
+                                    }
                                 }
                             }
                         }
@@ -271,8 +278,11 @@ PopupWindow {
                                 cursorShape: Qt.PointingHandCursor
 
                                 onClicked: {
+                                    var children = []
                                     for (var i = 0; i < notifRepeater.count; i++){
-                                        var child = notifRepeater.itemAt(i)
+                                        children.push(notifRepeater.itemAt(i))
+                                    }
+                                    for (var child of children){
                                         child.modelData.dismiss()
                                     }
                                 }
