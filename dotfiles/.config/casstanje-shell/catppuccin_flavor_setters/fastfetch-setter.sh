@@ -23,6 +23,6 @@ else
     colorString="red"
 fi
     
-sed -i "/color=\"\\\033/c\color=\"\\\033\[0\;$color\m\"" "$HOME"/.config/casstanje-shell/casstanje-fastfetch.sh
-sed -i "/      \"keys\": \"italic_bold_/c\      \"keys\": \"italic_bold_$colorString\"," "$HOME"/.config/fastfetch/config.jsonc
-sed -i "/      \"title\": \"/c\      \"title\": \"bright_bold_$colorString\"," "$HOME"/.config/fastfetch/config.jsonc
+sed --follow-symlinks -i "/color=\"\\\033/c\color=\"\\\033\[0\;$color\m\"" "$HOME"/.config/casstanje-shell/casstanje-fastfetch.sh
+sed --follow-symlinks -i "/      \"keys\": \"italic_bold_/c\      \"keys\": \"italic_bold_$colorString\"," "$HOME"/.config/fastfetch/config.jsonc
+sed --follow-symlinks -i "/      \"title\": \"/c\      \"title\": \"bright_bold_$colorString\"," "$HOME"/.config/fastfetch/config.jsonc

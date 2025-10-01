@@ -16,7 +16,7 @@ for i in "${!keys[@]}"; do
         suffix=""
     fi
 
-    sed -i "/\"$cleanedKey\":/c\\        \"$cleanedKey\": \"$cleanedValue\"$suffix" $HOME/.config/casstanje-shell/config.json
+    sed --follow-symlinks -i "/\"$cleanedKey\":/c\\        \"$cleanedKey\": \"$cleanedValue\"$suffix" $HOME/.config/casstanje-shell/config.json
 done
 
 bash $HOME/.config/casstanje-shell/apply-application-defaults.sh

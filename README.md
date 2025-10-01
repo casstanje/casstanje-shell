@@ -85,6 +85,8 @@ The installation scripts takes care of these, but if you wanna install the confi
     - editor (default: [code](https://archlinux.org/packages/extra/x86_64/code/))
     - if yours are different, you must change the defaults in ```$HOME/.config/casstanje-shell/config.json``` (or through the shell customization GUI) and log out and back in again. Also remember to change the xdg-mime defaults.
 - [catppuccin-gtk-theme-mocha](https://aur.archlinux.org/packages/catppuccin-gtk-theme-mocha)
+- [papirus icon theme](https://archlinux.org/packages/extra/any/papirus-icon-theme/)
+- [catppuccin papirus folder colors](https://github.com/catppuccin/papirus-folders)
 - fonts
     - [jetbrains mono](https://archlinux.org/packages/extra/any/ttf-jetbrains-mono/)
     - [jetbrains mono nerd](https://archlinux.org/packages/extra/any/ttf-jetbrains-mono-nerd/)
