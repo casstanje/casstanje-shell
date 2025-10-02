@@ -1,5 +1,8 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+if -f "$SCRIPT_DIR/custom_packages" ; then
+    source "$SCRIPT_DIR/custom_packages"    
+fi
 PACKAGE_LIST=(
     "breeze"
     "breeze-gtk"
@@ -141,6 +144,14 @@ main() {
     do
         installPackage "$package"
     done
+
+    if [[ -v custom_packages ]]; then
+        echo
+        prinf '\n-\nInstalling custom packages...\n'
+        for package in "${custom_packages[@]}"
+            installPackage "$package"
+        done
+    fi
 
     echo
     if $(yaeNae "Install power-profiles-daemon and brightnessctl? (recomended for laptops)" "n")

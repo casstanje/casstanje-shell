@@ -111,3 +111,15 @@ You can edit the bar using the Casstanje Shell Customizer or (this is not recomm
 
 ### How do i change / add my profile image?
 To change (or add) a profile image, create image in either the JPEG or PNG format that's under 400x400px, rename it to .face and place it in your home folder.
+
+### Custom packages to install?
+To install additional package, create a file in the same folder as "installer.sh" with a BASH array of package names (from the AUR or the arch repos) as strings. Example:
+
+in file "custom_packages"
+```bash
+custom_packages = (
+    "thunderbird"
+    "firefox"
+    "vesktop-bin"
+)
+```
