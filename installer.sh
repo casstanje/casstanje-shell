@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-if -f "$SCRIPT_DIR/custom_packages" ; then
+if [ -f "$SCRIPT_DIR/custom_packages" ] ; then
     source "$SCRIPT_DIR/custom_packages"    
 fi
 PACKAGE_LIST=(
@@ -148,7 +148,7 @@ main() {
     if [[ -v custom_packages ]]; then
         echo
         prinf '\n-\nInstalling custom packages...\n'
-        for package in "${custom_packages[@]}"
+        for package in "${custom_packages[@]}" ; do
             installPackage "$package"
         done
     fi
