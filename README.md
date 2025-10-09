@@ -98,6 +98,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 ### Fixes / Bugs
 - Bunch of layout problems in the notification list, including text going out of bounds on action buttons, and images not scaling correctly
 - Wrap text on notif popups instead of clipping
+- Scrolling down on media bar doesn't go back to previous as it should
 ### Features
 - Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 - Notification sounds
