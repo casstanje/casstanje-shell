@@ -1,9 +1,7 @@
 # Casstanje's Catppuccin Mocha Hyprland Shell for Arch Linux
 
 ## Gallery
-https://github.com/user-attachments/assets/4fe29e24-b444-4ee1-a55b-e62b9d6c4cf4
-
-| ![](assets/screenshots/red.png "red catppuccin flavor") | ![](assets/screenshots/green.png "green catppuccin flavor") |
+![](assets/screenshots/red.png "red catppuccin flavor") | ![](assets/screenshots/green.png "green catppuccin flavor") |
 :-------------------------------------------------------: | :-----------------------------------------------------------:
 
 ![mauve catppuccin flavor with rofi open](assets/screenshots/mauve_rofi.png "mauve catppuccin flavor with rofi open")
@@ -98,6 +96,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 ### Fixes / Bugs
 - Bunch of layout problems in the notification list, including text going out of bounds on action buttons, and images not scaling correctly
 - Wrap text on notif popups instead of clipping
+- Scrolling down on media bar doesn't go back to previous as it should
 ### Features
 - Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 - Notification sounds
