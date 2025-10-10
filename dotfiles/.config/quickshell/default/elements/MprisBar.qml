@@ -120,7 +120,7 @@ RowLayout {
                 if(wheel.angleDelta.y > 0 && root.activePlayer.canGoNext){
                     root.activePlayer.next()
                 }else if(wheel.angleDelta.y < 0 && root.activePlayer.canGoPrevious){
-                    root.activePlayer.next()
+                    root.activePlayer.previous()
                 }
             }
             acceptedButtons: Qt.LeftButton | Qt.RightButton

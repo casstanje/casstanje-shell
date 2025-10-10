@@ -36,7 +36,7 @@ Doesn't install anything you might not want in your operating system by default.
 1. Clone the repo and cd into it
 
 ```
-git clone https://github.com/casstanje/casstanje-shell casstanje-shell-repo
+git clone https://codeberg.org/casstanje/casstanje-shell casstanje-shell-repo
 cd casstanje-shell-repo
 ```
 
@@ -93,14 +93,9 @@ The installation scripts takes care of these, but if you wanna install the confi
     - [brightnessctl](https://archlinux.org/packages/extra/x86_64/brightnessctl/)
 
 ## TODO
-### Fixes / Bugs
-- Bunch of layout problems in the notification list, including text going out of bounds on action buttons, and images not scaling correctly
-- Wrap text on notif popups instead of clipping
-- Scrolling down on media bar doesn't go back to previous as it should
 ### Features
 - Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 - Notification sounds
-- Clicking on notification popups should trigger their action
 
 ## FAQ
 ### Why rofi?? Are you too lazy to make your own app launcher?????

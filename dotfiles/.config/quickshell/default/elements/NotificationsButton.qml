@@ -123,7 +123,7 @@ ClickableContainer {
             WrapperRectangle{
                 id: container
                 margin: 8
-                color: Theme.background
+                color: popupMouseArea.hoveredOver ? Theme.surface : Theme.background
                 radius: Theme.borderRadius
                 border.width: Theme.borderWidth
                 border.color: Theme.accent
@@ -173,52 +173,77 @@ ClickableContainer {
                     }
                 }
 
-                RowLayout {
-                    ClippingRectangle {
-                        visible: root.currentNotification.image != ""
-                        color: "transparent"
-                        id: imageContainer
-                        implicitWidth: 40
-                        implicitHeight: implicitWidth
-                        radius: Theme.borderRadius
-                        Image {
-                            source: root.currentNotification.image
-                            height: imageContainer.implicitHeight
-                            width: imageContainer.implicitHeight
-                            fillMode: Image.PreserveAspectCrop
-                        }
-                    }
-                    ColumnLayout {
-                        spacing: 0
-                        RowLayout {
-                            visible: appName.visible
-                            spacing: 2
+                WrapperMouseArea {
+                    id: popupMouseArea
+                    cursorShape: root.currentNotification.actions.length > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    property bool hoveredOver: false
+                    hoverEnabled: true
 
-                            IconImage {
-                                visible: root.currentNotification.appIcon != ""
-                                id: appIcon
-                                source: root.currentNotification.appIcon
+                    onEntered: {
+                        if(root.currentNotification.actions.length > 0)
+                            hoveredOver = true
+                    }
+
+                    onExited: {
+                        hoveredOver = false
+                    }
+
+                    onClicked: {
+                        root.currentNotification.actions[0].invoke()
+                        appearAnim.stop()
+                        waitAnim.stop()
+                        closeAnim.start()
+                    }
+
+                    RowLayout {
+                        ClippingRectangle {
+                            visible: root.currentNotification.image != ""
+                            color: "transparent"
+                            id: imageContainer
+                            implicitWidth: 40
+                            implicitHeight: implicitWidth
+                            radius: Theme.borderRadius
+                            Image {
+                                source: root.currentNotification.image
+                                height: imageContainer.implicitHeight
+                                width: imageContainer.implicitHeight
+                                fillMode: Image.PreserveAspectCrop
+                            }
+                        }
+                        ColumnLayout {
+                            spacing: 0
+                            RowLayout {
+                                visible: appName.visible
+                                spacing: 2
+
+                                IconImage {
+                                    visible: root.currentNotification.appIcon != ""
+                                    id: appIcon
+                                    source: root.currentNotification.appIcon
+                                }
+                                Text {
+                                    id: appName
+                                    text: root.currentNotification.appName
+                                    color: Theme.text
+                                    font.family: Theme.fontFamily
+                                    font.pointSize: Theme.fontSize * 1.05
+                                    wrapMode: Text.Wrap
+                                    font.bold: false
+                                }
                             }
                             Text {
-                                id: appName
-                                text: root.currentNotification.appName
-                                color: Theme.text
+                                text: root.currentNotification.body == "" ? root.currentNotification.summary : root.currentNotification.body
+                                color: Theme.subtext
                                 font.family: Theme.fontFamily
-                                font.pointSize: Theme.fontSize * 1.05
-                                font.bold: false
+                                font.pointSize: Theme.fontSize
+                                wrapMode: Text.NoWrap
+                                elide: Text.ElideRight
+                                Layout.maximumWidth: 150
                             }
-                        }
-                        Text {
-                            text: root.currentNotification.body == "" ? root.currentNotification.summary : root.currentNotification.body
-                            color: Theme.subtext
-                            font.family: Theme.fontFamily
-                            font.pointSize: Theme.fontSize
-                            wrapMode: Text.NoWrap
-                            elide: Text.ElideRight
-                            Layout.maximumWidth: 150
                         }
                     }
                 }
+
             }
 
         }

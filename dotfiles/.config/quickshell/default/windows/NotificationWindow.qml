@@ -141,8 +141,9 @@ PopupWindow {
                                                         text: notif.modelData.appName
                                                         color: Theme.text
                                                         font.family: Theme.fontFamily
-                                                        font.pointSize: Theme.fontSize * 1.05
-                                                        font.bold: false
+                                                        font.pointSize: Theme.fontSize
+                                                        font.bold: true
+                                                        font.italic: false
                                                     }
                                                 }
                                                 Rectangle {
@@ -179,10 +180,11 @@ PopupWindow {
                                                     color: "transparent"
                                                     id: imageContainer
                                                     implicitHeight: contentColumn.height
-                                                    Layout.maximumHeight: 60
+                                                    Layout.maximumHeight: (notifImage.paintedHeight < 60) ? 60 : notifImage.paintedHeight
                                                     implicitWidth: height
                                                     radius: Theme.borderRadius
                                                     Image {
+                                                        id: notifImage
                                                         source: notif.modelData.image
                                                         height: imageContainer.height
                                                         width: imageContainer.height
@@ -211,9 +213,13 @@ PopupWindow {
                                                         elide: Text.ElideRight
                                                         Layout.maximumWidth: 150
                                                     }
-                                                    RowLayout {
+                                                    GridLayout {
                                                         visible: notif.modelData.actions.length > 0
-                                                        spacing: 4
+                                                        id: actionContainer
+                                                        columnSpacing: 4
+                                                        rowSpacing: 4
+                                                        uniformCellWidths: true
+                                                        columns: 2
                                                         Repeater {
                                                             id: actionsRepeater
                                                             model: notif.modelData.actions
@@ -230,6 +236,7 @@ PopupWindow {
                                                                     }
                                                                 }
                                                                 Text {
+                                                                    elide: Text.ElideRight
                                                                     text: actionContainer.modelData.text
                                                                     color: Theme.text
                                                                     font.family: Theme.fontFamily
