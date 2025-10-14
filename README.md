@@ -95,6 +95,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 ## TODO
 ### Bugs / Fixes
 - Sometimes the mprisbar ignores it max size, if for example the track title is extremely long
+- Still notification image scaling issues T-T
 ### Features
 - Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 - Stopwatch / Countdown timer in bar
