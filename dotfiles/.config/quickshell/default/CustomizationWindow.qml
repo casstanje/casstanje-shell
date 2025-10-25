@@ -75,7 +75,13 @@ FloatingWindow {
     }
 
     property var barConfigProperties: {}
-    property string propertiesString: ""
+    property var themingProperties: {}
+    property var appDefaultProperties: {}
+    property string getConfigPath: "./.config/casstanje-shell/getConfigSettings.py"
+    property string setConfigPath: "./.config/casstanje-shell/setConfigSettings.py"
+    property string resetConfigPath: "./.config/casstanje-shell/resetConfig.py"
+    property string changedSettingsString: ""
+    property var changedSettings: {"bar": {}, "theming": {}, "appDefaults": {}, "catppuccinflavor": ""}
 
     color: Theme.background
 
@@ -141,7 +147,12 @@ FloatingWindow {
 
                             onClicked: {
                                 root.currentFlavor = colorItem.name
-                                setCurrentFlavorProc.running = true
+                                if(root.startFlavor != root.currentFlavor){
+                                    root.changedSettings["catppuccinflavor"] = root.currentFlavor
+                                }else{
+                                    root.changedSettings["catppuccinflavor"] = ""
+                                }
+                                root.changedSettingsString = JSON.stringify(root.changedSettings)
                             }
 
                             WrapperRectangle {
@@ -188,46 +199,106 @@ FloatingWindow {
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Text {
-                        text: "this only changes the applications the keybinds in hyprbinds.conf launches, NOT the xdg-mime (actual) defaults."
+                        text: "controls which .desktop files the hyprland shortcuts open, as well as the default apps for xdg"
                         color: Theme.text
                         font.family: Theme.fontFamily
                         font.pointSize: Theme.fontSize
+                        Layout.alignment: Qt.AlignHCenter
                         wrapMode: Text.Wrap
+                        horizontalAlignment: Qt.AlignHCenter
                         Layout.fillWidth: true
                     }
-                    Repeater {
-                        model: root.programKeys
+                    WrapperRectangle {
+                        Layout.fillWidth: true
+                        id: appDefaultSettingsHolder
+                        required property string modelData
+                        margin: 8
+                        radius: Theme.borderRadius
+                        color: Theme.darkerBackground
                         ColumnLayout {
-                            required property var modelData
-                            id: programItem
-                            Text {
-                                text: modelData
-                                color: Theme.text
-                                font.family: Theme.fontFamily
-                                font.pointSize: Theme.fontSize * 1.1
-                            }
-                            WrapperMouseArea {
-                                Layout.fillWidth: true
-                                cursorShape: Qt.IBeamCursor
+                            id: appDefaultSettingsColumnLayout
+                            Layout.fillWidth: true
+
+                            Repeater {
+                                model: Object.keys(root.appDefaultProperties)
                                 WrapperRectangle {
-                                    Layout.fillWidth: true
-                                    radius: Theme.borderRadius
-                                    color: Theme.darkerBackground
-                                    TextInput {
-                                        padding: 8
-                                        text: root.programValues[root.programKeys.indexOf(programItem.modelData)]
-                                        color: Theme.text
-                                        font.family: Theme.fontFamily
-                                        font.pointSize: Theme.fontSize
-                                        selectionColor: Theme.accent
-                                        selectedTextColor: Theme.background
-                                        onTextEdited: {
-                                            root.programValues[root.programKeys.indexOf(programItem.modelData)] = text
+                                    required property var modelData
+                                    color: "transparent"
+                                    implicitWidth: appDefaultSettingsColumnLayout.width
+                                    ConfigSetting {
+                                        text: parent.modelData
+                                        modelData: root.appDefaultProperties[parent.modelData]
+                                        onNewValueChanged: {
+                                            if(modelData["startValue"] != newValue){
+                                                root.changedSettings["appDefaults"][parent.modelData] = newValue
+                                            }else{
+                                                if(parent.modelData in root.changedSettings["appDefaults"])
+                                                    delete root.changedSettings["appDefaults"][parent.modelData]
+                                            }
+                                            root.changedSettingsString = JSON.stringify(root.changedSettings)
                                         }
                                     }
                                 }
                             }
-                            
+                        }
+                    }
+                    Rectangle {
+                        implicitHeight: 2
+                        radius: 100
+                        Layout.fillWidth: true
+                        Layout.topMargin: 6
+                        Layout.bottomMargin: 6
+                        color: Theme.brightSurface
+                    }
+                    Text {
+                        text: "THEMING"
+                        color: Theme.text
+                        font.family: Theme.fontFamily
+                        font.pointSize: Theme.fontSize * 1.2
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                    Text {
+                        text: "theme settings for both windows and the bar. \nif this does not take effect upon clicking apply, you should log out and back in again"
+                        color: Theme.text
+                        font.family: Theme.fontFamily
+                        font.pointSize: Theme.fontSize
+                        Layout.alignment: Qt.AlignHCenter
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Qt.AlignHCenter
+                        Layout.fillWidth: true
+                    }
+                    WrapperRectangle {
+                        Layout.fillWidth: true
+                        id: themingSettingHolder
+                        required property string modelData
+                        margin: 8
+                        radius: Theme.borderRadius
+                        color: Theme.darkerBackground
+                        ColumnLayout {
+                            id: themingSettingColumnLayout
+                            Layout.fillWidth: true
+
+                            Repeater {
+                                model: Object.keys(root.themingProperties)
+                                WrapperRectangle {
+                                    required property var modelData
+                                    color: "transparent"
+                                    implicitWidth: themingSettingColumnLayout.width
+                                    ConfigSetting {
+                                        text: parent.modelData
+                                        modelData: root.themingProperties[parent.modelData]
+                                        onNewValueChanged: {
+                                            if(modelData["startValue"] != newValue){
+                                                root.changedSettings["theming"][parent.modelData] = newValue
+                                            }else{
+                                                if(parent.modelData in root.changedSettings["theming"])
+                                                    delete root.changedSettings["theming"][parent.modelData]
+                                            }
+                                            root.changedSettingsString = JSON.stringify(root.changedSettings)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     Rectangle {
@@ -307,12 +378,17 @@ FloatingWindow {
                                             property Component setting: WrapperRectangle {
                                                 color: "transparent"
                                                 implicitWidth: settingColumnLayout.width
-                                                BarConfigSettings {
+                                                ConfigSetting {
                                                     text: settingLoader.modelData
                                                     modelData: settingLoader.settingObject
                                                     onNewValueChanged: {
-                                                        root.barConfigProperties[settingCategory.modelData][settingLoader.modelData]["value"] = newValue
-                                                        root.propertiesString = JSON.stringify(root.barConfigProperties)
+                                                        if(modelData["startValue"] != newValue){
+                                                            root.changedSettings["bar"][settingLoader.modelData] = newValue
+                                                        }else{
+                                                            if(settingLoader.modelData in root.changedSettings["bar"])
+                                                                delete root.changedSettings["bar"][settingLoader.modelData]
+                                                        }
+                                                        root.changedSettingsString = JSON.stringify(root.changedSettings)
                                                     }
                                                 }
                                             }
@@ -335,12 +411,18 @@ FloatingWindow {
                                                             color: "transparent"
                                                             implicitWidth: settingColumnLayout.width
                                                             required property var modelData
-                                                            BarConfigSettings {
+                                                            ConfigSetting {
                                                                 text: parent.modelData
                                                                 modelData: settingLoader.settingObject[parent.modelData]
                                                                 onNewValueChanged: {
-                                                                    root.barConfigProperties[settingCategory.modelData][settingLoader.modelData][parent.modelData]["value"] = newValue
-                                                                    root.propertiesString = JSON.stringify(root.barConfigProperties)
+                                                                    if(modelData["startValue"] != newValue){
+                                                                        root.changedSettings["bar"][parent.modelData] = newValue
+                                                                    }else{
+                                                                        if(parent.modelData in root.changedSettings["bar"])
+                                                                            delete root.changedSettings["bar"][parent.modelData]
+                                                                    }
+                                                                    root.changedSettingsString = JSON.stringify(root.changedSettings)
+                                                                    
                                                                 }
                                                             }
                                                         }
@@ -431,17 +513,13 @@ FloatingWindow {
                     cursorShape: Qt.PointingHandCursor
 
                     onClicked: {
-                        /*Default Applications*/
-                        var newString = ""
-                        for(var i = 0; i < root.programValues.length; i++) {
-                            var value = root.programValues[i]
-                            newString += "\"" + value + "\"" + (i != root.programValues.length - 1 ? "¾" : "")
-                        }
-                        root.programValuesAsString = newString
-                        setProgramDefaultsProc.running = true
-
                         /*Bar Config*/
-                        setConfigJsonProc.running = true
+                        Quickshell.execDetached(
+                            {
+                                command: ["python", "setConfigSettings.py", root.changedSettingsString],
+                                workingDirectory: FileHelper.homeFolder + ".config/casstanje-shell/"
+                            }
+                        )
                     }
                     WrapperRectangle {
                         margin: 8
@@ -513,7 +591,44 @@ FloatingWindow {
                 Rectangle {
                     Layout.fillWidth: true
                 }
+                WrapperMouseArea {
+                    id: resetToDefaultButton
+                    hoverEnabled: true
+                    property bool hoveredOver: false
+                    property bool yaSure: false
+                    onEntered: hoveredOver = true
+                    onExited: hoveredOver = false
 
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        if(!yaSure){
+                            yaSure = true
+                            yaSureTimer.running = true
+                        }else{
+                            Quickshell.execDetached(
+                                {
+                                    command: ["python", "resetConfig.py", root.changedSettingsString],
+                                    workingDirectory: FileHelper.homeFolder + ".config/casstanje-shell/"
+                                }
+                            )
+                        }
+                    }
+                    WrapperRectangle {
+                        margin: 8
+                        border.color: Theme.red
+                        border.width: 1
+                        color: parent.hoveredOver ? Theme.surface : "transparent"
+                        radius: Theme.borderRadius
+
+                        Text {
+                            text: resetToDefaultButton.yaSure ? "you sure??" : "reset to defaults"
+                            font.family: Theme.fontFamily
+                            font.pointSize: Theme.fontSize
+                            color: Theme.red
+                        }
+                    }
+                }
             }
         }
     }
@@ -525,114 +640,25 @@ FloatingWindow {
     }
 
     Process {
-        id: getCurrentFlavorProc
-        command: ["bash", FileHelper.homeFolder + ".config/casstanje-shell/get-catppuccin-flavor.sh"]
+        id: getConfigJsonProc
+        command: ["python", root.getConfigPath, "\"1\""]
         stdout: StdioCollector {
             onStreamFinished: {
-                root.currentFlavor = this.text.replace("\n", "")
+                const jsonObject = JSON.parse(this.text)
+                root.barConfigProperties = jsonObject["bar"]
+                root.themingProperties = jsonObject["theming"]
+                root.appDefaultProperties = jsonObject["appDefaults"]
+                root.currentFlavor = jsonObject["catppuccinflavor"]
             }
         }
         running: true
-    }
-
-    Process {
-        id: setCurrentFlavorProc
-        command: ["bash", FileHelper.homeFolder + "/.config/casstanje-shell/set-new-catppuccin-flavor.sh", root.currentFlavor]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                Quickshell.reload(false)
-            }
-        }
-    }
-
-    Process { // Needs to run a bit after app start, so the timer below sets running to true
-        id: getProgramKeysProc
-        command: ["sh", FileHelper.homeFolder + "/.config/casstanje-shell/get-app-defaults-keys.sh"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                var cleanedText = this.text.replace("[", "").replace("]", "").replace(/\"/g, "").replace(/\n/g, "")
-                root.programKeys = cleanedText.split(",")
-            }
-        }
-        
     }
 
     Timer {
-        interval: 200
-        running: true
+        id: yaSureTimer
+        interval: 3000
         onTriggered: {
-            getProgramKeysProc.running = true
-            getProgramValuesProc.running = true
-        }
-    }
-
-    Process { // Same with this one
-        id: getProgramValuesProc
-        command: ["sh", FileHelper.homeFolder + "/.config/casstanje-shell/get-app-defaults-values.sh"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                var cleanedText = this.text.replace(/\"/g, "")
-                var array = cleanedText.split("\n")
-                array.pop()
-                root.programValues = array
-            }
-        }
-        
-    }
-
-    Process {
-        id: setProgramDefaultsProc
-        command: ["sh", FileHelper.homeFolder + "/.config/casstanje-shell/set-new-app-defaults.sh", root.programValuesAsString]
-    }
-
-    Process {
-        id: getConfigJsonProc
-        command: ["sh", Quickshell.shellDir + "/scripts/getBarConfigJson.sh"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                //console.log(this.text)
-                var jsonObject = JSON.parse(this.text)
-                root.barConfigProperties = {}
-                for(var category in jsonObject){
-                    var settings = jsonObject[category]
-                    var settingCategory = {}
-                    
-                    for(var setting in settings){
-                        var keys = settings[setting]
-                        for(var key in keys){
-                            if(settingCategory[setting] == undefined) settingCategory[setting] = {}
-                            if(key != "name" && key != "value" && key != "description" && key != "type"){
-                                var subKeys = keys[key]
-                                var subCategory = {}
-                                for(var subKey in subKeys){
-                                    if(settingCategory[setting][key] == undefined) settingCategory[setting][key] = {}
-                                    settingCategory[setting][key][subKey] = subKeys[subKey]
-                                }
-                                settingCategory[setting][key]["subcategory"] = true
-                            }else {
-                                settingCategory[setting][key] = keys[key]
-                            }
-                        }
-                    }
-                    console.log(Object.keys(settingCategory[setting]))
-                    root.barConfigProperties[category] = settingCategory
-                    settingRepeater.model = undefined
-                    settingRepeater.model = Object.keys(root.barConfigProperties)
-                }
-                
-            }
-        }
-        running: true
-    }
-
-    Process {
-        id: setConfigJsonProc
-        command: ["sh", Quickshell.shellDir + "/scripts/setBarConfigJson.sh", root.propertiesString]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                console.log(setConfigJsonProc.command)
-                Quickshell.reload(true)
-            }
+            resetToDefaultButton.yaSure = false
         }
     }
 }

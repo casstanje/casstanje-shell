@@ -17,7 +17,8 @@ PopupWindow {
     property var onExitedCallback: function(){}
     property var onEnteredCallback: function(){}
     property real currentBrightness
-    property int currentProfile: PowerProfile.toString(PowerProfiles.profile).toLowerCase()
+    property string startProfileString: PowerProfile.toString(PowerProfiles.profile).toLowerCase()
+    property int currentProfile: startProfileString == "powersaver" ? 0 : (startProfileString == "balanced" ? 1 : 2)
 
     color: "transparent"
 

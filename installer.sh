@@ -7,6 +7,7 @@ PACKAGE_LIST=(
     "breeze"
     "breeze-gtk"
     "jq"
+    "python"
     "pipewire"
     "lib32-pipewire"
     "pavucontrol-qt"
@@ -186,9 +187,69 @@ main() {
     sudo systemctl enable --now bluetooth
     sudo systemctl enable --now NetworkManager
 
-    printf '\n-\nSetting xdg-mime defaults\n'
-    xdg-mime default zen.desktop x-scheme-handler/http x-scheme-handler/https
-    xdg-mime default nemo.desktop inode/directory
+    echo
+    if $(yaeNae "Select catppuccin flavor? The default is green" "y")
+    then
+        CHOSEN_FLAVOR="false"
+        NEW_FLAVOR=""
+        FLAVORS=(
+            "rosewater" 
+            "flamingo"
+            "pink"
+            "mauve"
+            "red"
+            "maroon"
+            "yellow"
+            "green"
+            "teal"
+            "sky"
+            "sapphire"
+            "blue"
+            "lavender"
+        )
+        FLAVOR_AMOUNT=${#FLAVORS[@]}
+
+        while [ "$CHOSEN_FLAVOR" = "false" ]; do
+            for (( i=0 ; i<$FLAVOR_AMOUNT ; i++ )) ; do
+                printf "$i - ${FLAVORS[$i]}\n"
+            done
+            printf "Please choose by inputting a number\n"
+            read choice
+            CHOICE_VALID="false"
+            for (( i=0 ; i<$FLAVOR_AMOUNT ; i++ )) ; do
+                if [ "$i" = "$choice" ]; then
+                    CHOICE_VALID="true"
+                fi
+            done
+            if [ "$CHOICE_VALID" = "true" ]; then
+                NEW_FLAVOR="${FLAVORS[$choice]}"
+                CHOSEN_FLAVOR="true"
+            else
+                printf "\nNot a valid choice. Please choose a valid option\n"
+            fi
+        done
+
+        STRING="{\"catppuccinflavor\": \"$NEW_FLAVOR\"}"
+        python $HOME/.config/casstanje-shell/setConfigSettings.py "$STRING"
+    fi
+
+    echo
+    NEW_LANG="en"
+    if $(yaeNae "Select keyboard layout? Default is 'en'" "y") ; then
+        CHOSEN_LANG="false"
+        while [ "$CHOSEN_LANG" = "false" ]; do
+            printf "Please enter an ISO 639-1 language code (two letters, for example 'en' for english or 'de' for german)\n"
+            read lang
+            countryCodeRegex='\b(ad|ae|af|ag|ai|al|am|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|bq|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tr|tt|tv|tw|tz|ua|ug|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)\b'
+            if [[ "$lang" =~ $countryCodeRegex ]] ; then
+                CHOSEN_LANG="true"
+                NEW_LANG="$lang"
+            else
+                printf "\nNot a valid choice. Please enter a valid language code\n"
+            fi
+        done
+    fi
+    sed --follow-symlinks -i "/kb_layout = /c\\    kb_layout = $NEW_LANG" $HOME/.config/hypr/hyprinput.conf
 
     nl='\n'
     printf "${nl}-${nl}Done!${nl}If you're on a nvidia card, you should uncomment the last few lines in ~/.config/hyprenv.conf before rebooting. Also look at the Nvidia page of both the archwiki (https://wiki.archlinux.org/title/NVIDIA) and the hyprland wiki (https://wiki.hypr.land/0.45.0/Nvidia/) for additional help with installing the correct drivers and setting them up correctly${nl}You should reboot before using the shell${nl}Thank you!"

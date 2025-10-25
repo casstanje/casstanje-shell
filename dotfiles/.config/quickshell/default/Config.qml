@@ -31,18 +31,18 @@ Singleton {
 
     //Clock
     // https://doc.qt.io/qt-6/qml-qtqml-qt.html#formatDateTime-method
-    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm"
+    property string dateTimeFormat: "ddd dd/MM/yy | hh:mm:ss"
 
     // System Tray
     // Maximum of 18 (if you want them to actually fit in the container lol)
-    property int trayIconSize: 15
+    property int trayIconSize: 13
 
     // Notfications
     property int notificationDuration: 3500
 
     // Battery
-    // Shows an outline that's filled in according to the charge percentage
-    property bool showBatteryChargeOutline: true
+    // Shows a background that's filled in according to the charge percentage
+    property bool showBatteryChargeBg: true
     // Enables a menu on the battery module, that allows you to change the power profile of your pc
     // You need to have the power-profiles-daemon installed and running for it to work.
     // Gets disabled automatically if the daemon doesn't exist
@@ -57,7 +57,7 @@ Singleton {
     // Mpris
     property int albumArtMenuSize: 250
     property bool showAlbumArt: true
-    // Shows an outline that's filled in according to the song progress
+    // Shows a background that's filled in according to the song progress
     // around the song title - artist - album
     property bool showPosition: true
     // The maximum width of the mpris bar's text in integers. The clipped text gets elided with three . (dots)

@@ -57,6 +57,8 @@ ColumnLayout {
                     y: parent.height / 2 - height / 2
                     radius: Theme.borderRadius
                     color: Theme.surface
+                    border.width: root.modelData["startValue"] != root.newValue ? 1 : 0
+                    border.color: Theme.accent 
 
                     Rectangle {
                         width: 14
@@ -78,6 +80,8 @@ ColumnLayout {
                     Layout.fillWidth: true
                     radius: Theme.borderRadius
                     color: Theme.surface
+                    border.width: root.modelData["startValue"] != root.newValue ? 1 : 0
+                    border.color: Theme.accent 
                     TextInput {
 
                         padding: 8
@@ -104,6 +108,8 @@ ColumnLayout {
             WrapperRectangle {
                 color: "transparent"
                 implicitWidth: 150
+                border.width: root.modelData["startValue"] != root.newValue ? 1 : 0
+                border.color: Theme.accent 
                 ElementWheel {
                     Layout.fillWidth: true
                     model: ["seconds", "minutes", "hours"]

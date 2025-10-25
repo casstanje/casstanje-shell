@@ -57,6 +57,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 - [imagemagick](https://archlinux.org/packages/?name=imagemagick)
 - [qt6ct](https://archlinux.org/packages/extra/x86_64/qt6ct/)
 - [fastfetch](https://archlinux.org/packages/extra/x86_64/fastfetch/)
+- [python >= 3.6](https://archlinux.org/packages/core/x86_64/python/)
 - [kvantum](https://archlinux.org/packages/extra/x86_64/kvantum/)
     - [kvantum-theme-catppuccin-git](https://aur.archlinux.org/packages/kvantum-theme-catppuccin-git)
 - [hyprland](https://wiki.hypr.land/Getting-Started/Installation/)
@@ -81,7 +82,7 @@ The installation scripts takes care of these, but if you wanna install the confi
     - terminal (default: [kitty](https://github.com/kovidgoyal/kitty))
     - file manager (default: [nemo](https://archlinux.org/packages/extra/x86_64/nemo/))
     - editor (default: [code](https://archlinux.org/packages/extra/x86_64/code/))
-    - if yours are different, you must change the defaults in ```$HOME/.config/casstanje-shell/config.json``` (or through the shell customization GUI) and log out and back in again. Also remember to change the xdg-mime defaults.
+    - if yours are different, you must change the defaults though the Casstanje Shell Customizer GUI after installation
 - [catppuccin-gtk-theme-mocha](https://aur.archlinux.org/packages/catppuccin-gtk-theme-mocha)
 - [papirus icon theme](https://archlinux.org/packages/extra/any/papirus-icon-theme/)
 - [catppuccin papirus folder colors](https://github.com/catppuccin/papirus-folders)
@@ -97,7 +98,6 @@ The installation scripts takes care of these, but if you wanna install the confi
 - Sometimes the mprisbar ignores it max size, if for example the track title is extremely long
 - Still notification image scaling issues T-T
 ### Features
-- Seperate the user's settings, and the settings definition. Basically, have a settings.json that defines which settings exists, and a user-settings.json that defines what values the user has chosen
 - Stopwatch / Countdown timer in bar
 - Notification sounds
 
@@ -109,7 +109,7 @@ Rofi has a bunch of extensions that I like to use (hyprland binds, emojis, clipb
 Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too
 
 ### Bar config?
-You can edit the bar using the Casstanje Shell Customizer or (this is not recommended, as it might break the shell if done incorrecly) by manually editing ```$HOME/.config/casstanje-shell/config.json``` and running ```$HOME/.config/casstanje-shell/apply-bar-config.sh```
+You can edit the bar using the Casstanje Shell Customizer GUI
 
 ### How do i change / add my profile image?
 To change (or add) a profile image, create image in either the JPEG or PNG format that's under 400x400px, rename it to .face and place it in your home folder.

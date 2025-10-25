@@ -39,7 +39,7 @@ MouseArea {
             root.menuPosition.y = barRoot.implicitHeight
             menu.open()
         }
-    }   
+    }
     IconImage {
         id: trayIcon
         source: root.modelData.icon

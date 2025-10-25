@@ -71,10 +71,11 @@ Singleton {
 
     // Values
     property int borderRadius: 4
-    property real borderWidth: 2
+    property int borderWidth: 2
     property real smallBorderWidth: 1
     property double listSpacing: 4
     property real containerPadding: 2
+    property int screenGap: 8
 
     // Font
     property string fontFamily: "JetBrainsMono Nerd Font"

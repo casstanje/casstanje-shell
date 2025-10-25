@@ -26,7 +26,7 @@ ClippingRectangle {
     radius: Theme.borderRadius
     implicitHeight: batteryElement.implicitHeight
     implicitWidth: batteryElement.implicitWidth
-    color: Config.showBatteryChargeOutline ? Theme.brightSurface : "transparent"
+    color: "transparent"
     
     Rectangle {
         anchors.left: root.left        
@@ -35,25 +35,23 @@ ClippingRectangle {
         width: batteryElement.width * root.visualPercentage
         height: batteryElement.height
 
-        color: Config.showBatteryChargeOutline ? (UPower.displayDevice.state == UPowerDeviceState.Discharging ? Theme.error : Theme.correct) : "transparent"
+        color: Config.showBatteryChargeBg ? Theme.surface : "transparent"
     }
 
     ClippingWrapperRectangle {
         id: batteryElement
         visible: UPower.displayDevice.isLaptopBattery && Config.showLaptopBattery
         radius: Theme.borderRadius
-        margin: Config.showBatteryChargeOutline ? 1 : 0
         
         color: "transparent"
         ClickableContainer {
             id: button
-            backgroundColor: Theme.background
             enabled: 
                 (root.powerProfilesExists && Config.enablePowerProfileControl) || 
                     (root.brightnessctlExists && Config.enableBrightnessControl)
             cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            hasBorder: !Config.showBatteryChargeOutline
+            hasBorder: true
 
             onClicked: {
                 root.showWindow = true
@@ -66,7 +64,7 @@ ClippingRectangle {
             }
 
             Text {
-                text: "bat. " + Math.round(root.visualPercentage * 100) + "%"
+                text: UPower.displayDevice.state == UPowerDeviceState.Discharging ? "-" : "+" + "bat. " + Math.round(root.visualPercentage * 100) + "%"
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: Theme.fontSize

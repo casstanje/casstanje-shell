@@ -57,7 +57,7 @@ Scope {
             }
 
             WrapperRectangle {
-                margin: 8
+                margin: Theme.screenGap
                 bottomMargin: 0
                 implicitWidth: parent.width
                 implicitHeight: parent.height
@@ -77,17 +77,19 @@ Scope {
                     WrapperRectangle {
                         leftMargin: 8
                         rightMargin: 8
-                        bottomMargin: 0
+                        bottomMargin: 2
                         topMargin: 0
                         color: "transparent"
 
                         RowLayout {
                             spacing: 0
                             id: bar
+                            Layout.alignment: Qt.AlignHCenter
                             // Left Content
                             RowLayout {
                                 spacing: Theme.listSpacing
                                 Layout.maximumWidth: bar.width / 3
+                                Layout.maximumHeight: Theme.fontSize + Theme.containerPadding * 6
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 UserInfoButton {
@@ -128,6 +130,7 @@ Scope {
                             RowLayout {
                                 spacing: Theme.listSpacing
                                 Layout.maximumWidth: bar.width / 3
+                                Layout.maximumHeight: Theme.fontSize + Theme.containerPadding * 6
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
 
@@ -139,11 +142,10 @@ Scope {
 
                             // Right Content
                             RowLayout {
-
                                 spacing: Theme.listSpacing
                                 Layout.maximumWidth: bar.width / 3
+                                Layout.maximumHeight: Theme.fontSize + Theme.containerPadding * 6
                                 Layout.fillWidth: true
-                                Layout.fillHeight: true
                                 
                                 Rectangle {
                                     Layout.fillWidth: true

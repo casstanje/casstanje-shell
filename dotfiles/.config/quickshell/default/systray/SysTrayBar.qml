@@ -9,7 +9,7 @@ import './../elements/'
 WrapperRectangle {
     id: root
     required property var barRoot
-    topMargin: 7
+    topMargin: 0
     bottomMargin: topMargin
     color: "transparent"
     Layout.fillHeight: true

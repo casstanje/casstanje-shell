@@ -1,47 +1,106 @@
 {
+  "COMMENT-READ_FIRST": "!!!!!   THIS FILE SHOULD NOT BE EDITIED   !!!!!",
+  "COMMENT-LINE_1":     "!!!!!   This file exists only to define   !!!!!",
+  "COMMENT-LINE_2":     "!!!!!   settings and their default values !!!!!",
+  "COMMENT-LINE_3":     "!!!!!   Use the GUI app instead           !!!!!",
+
   "catppuccinflavor": "green",
-  "defaultApps": {
-    "browser": "zen-browser",
-    "terminal": "kitty",
-    "filemanager": "nemo",
-    "editor": "code"
+  "appDefaults": {
+    "editor": {
+      "type": "string",
+      "default": "code-oss.desktop",
+      "name": "editor",
+      "mimeTypes": "text/plain",
+      "description": ""
+    },
+    "browser": {
+      "type": "string",
+      "default": "zen.desktop",
+      "name": "browser",
+      "mimeTypes": "x-scheme-handler/http x-scheme-handler/https text/html application/x-extension-htm application/x-extension-html application/x-extension-shtml application/xhtml+xml application/x-extension-xhtml application/x-extension-xht",
+      "description": ""
+    },
+    "filemanager": {
+      "type": "string",
+      "default": "nemo.desktop",
+      "name": "filemanager",
+      "mimeTypes": "inode/directory",
+      "description": ""
+    },
+    "terminal": {
+      "type": "string",
+      "default": "kitty.desktop",
+      "name": "terminal",
+      "mimeTypes": "",
+      "description": ""
+    }
+  },
+  "theming": {
+    "border radius": {
+      "type": "int",
+      "default": "4",
+      "qsName": "borderRadius",
+      "hyprName": "rounding",
+      "description": "The border radius of bar elements and window borders in pixels"
+    },
+    "border width": {
+      "type": "int",
+      "default": "2",
+      "qsName": "borderWidth",
+      "hyprName": "border_size",
+      "description": "The border width of bar elements and window borders in pixels"
+    },
+    "screen gap": {
+      "type": "int",
+      "default": "8",
+      "qsName": "screenGap",
+      "hyprName": "gaps_out",
+      "description": "The gap between the border of the screen and the bar and windows"
+    },
+    "window gap": {
+      "type": "int",
+      "default": "4",
+      "qsName": "",
+      "hyprName": "gaps_in",
+      "description": "The gap between windows"
+    }
   },
   "barConfig": {
     "left modules": {
       "start menu enabled": {
         "name": "startMenuEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       },
       "show laptop battery": {
         "name": "showLaptopBattery",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": "Automatically hidden if not on laptop. Also includes a menu with options for screen brightness and power profiles"
       },
       "show power menu": {
         "name": "showPowerMenu",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": "If the computer is NOT a laptop and this is true, the battery indicator gets switched out with a power menu where you can switch power profile and screen brightness (if your system supports that)."
       },
       "volume enabled": {
         "name": "volumeEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       },
       "cpu usage enabled": {
         "name": "cpuEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       },
       "memory usage enabled": {
         "name": "memEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       }
     },
@@ -49,7 +108,7 @@
       "mpris bar enabled": {
         "name": "mprisBarEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": "Whether the mpris media player should be enabled or not"
       }
     },
@@ -57,19 +116,19 @@
       "system tray enabled": {
         "name": "sysTrayEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       },
       "notifications enabled": {
         "name": "notificationsEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       },
       "clock enabled": {
         "name": "clockEnabled",
         "type": "bool",
-        "value": "true",
+        "default": "true",
         "description": ""
       }
     },
@@ -78,7 +137,7 @@
         "date time format": {
           "name": "dateTimeFormat",
           "type": "string",
-          "value": "ddd dd/MM/yy | hh:mm:ss",
+          "default": "ddd dd/MM/yy | hh:mm:ss",
           "description": "Look up the Qt Date Time documentation for help",
           "subcategory": true
         }
@@ -87,7 +146,7 @@
         "tray icon size": {
           "name": "trayIconSize",
           "type": "int",
-          "value": "15",
+          "default": "13",
           "description": "Maximum of 18 (if you want them to actually fit in the container lol)",
           "subcategory": true
         }
@@ -96,37 +155,37 @@
         "notification duration": {
           "name": "notificationDuration",
           "type": "int",
-          "value": "3500",
+          "default": "3500",
           "description": "Notification popup duration in milliseconds",
           "subcategory": true
         }
       },
       "battery": {
         "show battery charge outline": {
-          "name": "showBatteryChargeOutline",
+          "name": "showBatteryChargeBg",
           "type": "bool",
-          "value": "true",
-          "description": "Shows an outline around the battery indicator that's filled in according to the charge percentage",
+          "default": "true",
+          "description": "Shows a background around the battery indicator that's filled in according to the charge percentage",
           "subcategory": true
         },
         "enable power profile control": {
           "name": "enablePowerProfileControl",
           "type": "bool",
-          "value": "true",
+          "default": "true",
           "description": "Enables a menu on the battery module, that allows you to change the power profile of your pc. You need to have the power-profiles-daemon installed and running for it to work. Gets disabled automatically if the daemon doesn't exist.",
           "subcategory": true
         },
         "enable brightness control": {
           "name": "enableBrightnessControl",
           "type": "bool",
-          "value": "true",
+          "default": "true",
           "description": "Adds a slider for brightnessctl to the power menu. Also enables the menu if power profile control isn't enabled. Gets disabled automatically if brightnessctl isn't found.",
           "subcategory": true
         },
         "backlight device name": {
           "name": "backlightDeviceName",
           "type": "string",
-          "value": "intel_backlight",
+          "default": "intel_backlight",
           "description": "The device you would like the brightness slider to affect. This varies from device to device, but the most common seems to be 'intel_backlight'.",
           "subcategory": true
         }
@@ -135,49 +194,49 @@
         "album art menu size": {
           "name": "albumArtMenuSize",
           "type": "int",
-          "value": "250",
+          "default": "250",
           "description": "The size of the album art in the media player menu",
           "subcategory": true
         },
         "show album art": {
           "name": "showAlbumArt",
           "type": "bool",
-          "value": "true",
+          "default": "true",
           "description": "Whether to show album art in the bar or not",
           "subcategory": true
         },
         "show position": {
           "name": "showPosition",
           "type": "bool",
-          "value": "true",
-          "description": "Whether to show an outline around the media player that gets filled up according to the song progress",
+          "default": "true",
+          "description": "Whether to show a background around the media player that gets filled up according to the song progress",
           "subcategory": true
         },
         "maximum width": {
           "name": "maximumWidth",
           "type": "int",
-          "value": "0",
+          "default": "0",
           "description": "The maximum width of the media player's text in integers. The clipped text gets elided with three . (dots) If empty or zero, the media player will have a maximum width equals to one third of the full bar",
           "subcategory": true
         },
         "show shuffle button": {
           "name": "showShuffleButton",
           "type": "bool",
-          "value": "false",
+          "default": "false",
           "description": "Does not work with most media players, so is disabled by default",
           "subcategory": true
         },
         "show repeat button": {
           "name": "showRepeatButton",
           "type": "bool",
-          "value": "false",
+          "default": "false",
           "description": "Does not work with most media players, so is disabled by default",
           "subcategory": true
         },
         "show volume slider": {
           "name": "showVolumeSlider",
           "type": "bool",
-          "value": "false",
+          "default": "false",
           "description": "Does not work with most media players, so is disabled by default",
           "subcategory": true
         }

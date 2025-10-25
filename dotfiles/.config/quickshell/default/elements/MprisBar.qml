@@ -79,7 +79,7 @@ RowLayout {
         Layout.alignment: Qt.AlignHCenter
         implicitWidth: mediaString.implicitWidth
         implicitHeight: mediaString.implicitHeight
-        color: mediaString.showPosition ? Theme.brightSurface : "transparent"
+        color: "transparent"
         radius: Theme.borderRadius
 
         Rectangle {
@@ -88,7 +88,7 @@ RowLayout {
             anchors.top: mediaString.top
             width: parent.width * (root.activePlayer.position / root.activePlayer.length)
             height: parent.height
-            color: Theme.accent
+            color: Theme.surface
             FrameAnimation {
                 // only emit the signal when the position is actually changing.
                 running: root.activePlayer.playbackState == MprisPlaybackState.Playing && mediaString.showPosition && root.activePlayer != null
@@ -113,7 +113,7 @@ RowLayout {
             }
             
             property var showPosition: root.activePlayer.positionSupported && Config.showPosition
-            margin: showPosition ? 1 : 0
+            margin: 0
             anchors.centerIn: parent
             id: mediaString
             onWheel: function(wheel){
@@ -146,7 +146,7 @@ RowLayout {
 
             WrapperRectangle {
                 id: rectangle
-                color: parent.hoveredOver ? Theme.brightSurface : Theme.background
+                color: parent.hoveredOver ? Theme.brightSurface : "transparent"
                 margin: Theme.containerPadding
                 leftMargin: Theme.containerPadding * 2
                 rightMargin: Theme.containerPadding * 2
