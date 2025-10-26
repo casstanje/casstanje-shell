@@ -34,7 +34,6 @@ RowLayout {
         visible: root.activePlayer.trackArtUrl != "" && Config.showAlbumArt
         id: albumArt
         Layout.fillHeight: true
-        margin: 4
         color: "transparent"
         ClippingWrapperRectangle{
             radius: Theme.borderRadius
