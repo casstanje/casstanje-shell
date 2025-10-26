@@ -108,6 +108,10 @@ Rofi has a bunch of extensions that I like to use (hyprland binds, emojis, clipb
 ### Can I add more apps to follow the system theme?
 Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too
 
+### GTK Apps aren't themed. what do i do?
+This issue pops up often, and I have a hard time fixing it.
+For the time being, the best way to fix it is installing nwg-look and setting the options manually there.
+
 ### Bar config?
 You can edit the bar using the Casstanje Shell Customizer GUI
 
