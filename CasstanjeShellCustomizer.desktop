@@ -6,3 +6,4 @@ Comment=Edit catppuccin flavor and more
 Path=
 Exec=bash -c "quickshell -p $HOME/.config/quickshell/default/CustomizationWindow.qml"
 Terminal=false
+Nmae[en_GB]=Casstanje Shell Customizer
