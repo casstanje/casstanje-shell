@@ -64,7 +64,7 @@ ClippingRectangle {
             }
 
             Text {
-                text: UPower.displayDevice.state == UPowerDeviceState.Discharging ? "-" : "+" + "bat. " + Math.round(root.visualPercentage * 100) + "%"
+                text: (UPower.displayDevice.state == UPowerDeviceState.Discharging ? "-" : "+") + "bat. " + Math.round(root.visualPercentage * 100) + "%"
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: Theme.fontSize
