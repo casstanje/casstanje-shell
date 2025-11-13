@@ -132,6 +132,14 @@
         "description": ""
       }
     },
+    "desktop widgets": {
+      "mpris player enabled": {
+        "name": "desktopMediaPlayerEnabled",
+        "type": "bool",
+        "default": "false",
+        "description": ""
+      }
+    },
     "module settings": {
       "clock": {
         "date time format": {

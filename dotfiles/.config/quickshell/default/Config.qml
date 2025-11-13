@@ -27,6 +27,9 @@ Singleton {
     property bool notificationsEnabled: true
     property bool clockEnabled: true
 
+    /* Desktop Widgets */
+    property bool desktopMediaPlayerEnabled: false
+
     /*SPECIFIC MODULE SETTINGS*/
 
     //Clock
