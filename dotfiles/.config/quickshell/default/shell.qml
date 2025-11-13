@@ -5,4 +5,5 @@ import QtQuick
 
 Scope {
     Bar {}
+    DesktopMediaPlayer {}
 }

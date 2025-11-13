@@ -52,6 +52,8 @@ Scope {
                 }
             }
 
+            
+
             onMouseClickedChanged: function() {
                 closeAllPopups()
             }
@@ -65,6 +67,11 @@ Scope {
                 id: barRoot
                 property var closeAllPopups: window.closeAllPopups
                 property var window: window
+
+                Component.onCompleted: {
+                    DynamicVars.barHeight = height
+                    console.log("Bar Height = " + DynamicVars.barHeight)
+                }
 
                 WrapperRectangle {
                     color: Theme.background
