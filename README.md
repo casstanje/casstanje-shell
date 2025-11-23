@@ -48,6 +48,12 @@ bash installer.sh
 3. ... follow the instructions and reboot. Done!
 
 
+### Extras
+Additional catppuccin flavor setters can be found at [this repo](https://codeberg.org/casstanje/casstanje-shell_extra-setters)
+
+Some of them might require additional setup, so please read the markdown files thoroughly
+
+
 ## Dependencies
 The installation scripts takes care of these, but if you wanna install the config manually, you must install them yourself.
 - breeze [qt](https://archlinux.org/packages/extra/x86_64/breeze/) and [gtk](https://archlinux.org/packages/extra/any/breeze-gtk/)
@@ -95,7 +101,6 @@ The installation scripts takes care of these, but if you wanna install the confi
 
 ## TODO
 ### Bugs / Fixes
-- Sometimes the mprisbar ignores it max size, if for example the track title is extremely long
 - Still notification image scaling issues T-T
 ### Features
 - Stopwatch / Countdown timer in bar
@@ -106,7 +111,7 @@ The installation scripts takes care of these, but if you wanna install the confi
 Rofi has a bunch of extensions that I like to use (hyprland binds, emojis, clipboard history and more), plus it's customizable enough for this shell's needs. And yes, i'm lazy, but *shhhh*
 
 ### Can I add more apps to follow the system theme?
-Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too
+Yea, but you'll have to do some bash scripting. In ```$HOME/.config/casstanje-shell/catppuccin_flavor_setters/``` there's a bunch of scripts that gets run each time the system flavor is changed. You can write your own script that takes in CATPPUCCIN_FLAVOR as a variable (flavor name in lowercase, e.g. 'green'), and apply the theme to the application you want that way. If you're confused, you can look at the existing scripts for reference. Don't worry, I hate bash too. Extra setters i made can be found at [this repo](https://codeberg.org/casstanje/casstanje-shell_extra-setters)
 
 ### GTK Apps aren't themed. what do i do?
 This issue pops up often, and I have a hard time fixing it.

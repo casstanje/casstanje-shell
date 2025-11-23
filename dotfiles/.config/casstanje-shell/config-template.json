@@ -102,6 +102,12 @@
         "type": "bool",
         "default": "true",
         "description": ""
+      },
+      "workspaces enabled": {
+        "name": "workspacesEnabled",
+        "type": "bool",
+        "default": "true",
+        "description": ""
       }
     },
     "center modules": {
@@ -195,6 +201,15 @@
           "type": "string",
           "default": "intel_backlight",
           "description": "The device you would like the brightness slider to affect. This varies from device to device, but the most common seems to be 'intel_backlight'.",
+          "subcategory": true
+        }
+      },
+      "workspaces": {
+        "show only ids": {
+          "name": "showOnlyIds",
+          "type": "bool",
+          "default": "false",
+          "description": "Removes the windows icosn and additional information from the workspace display, to only show the IDs of the workspaces",
           "subcategory": true
         }
       },

@@ -8,6 +8,9 @@ import Quickshell.Io
 import Quickshell.Services.Mpris
 import Quickshell.Services.UPower
 import Quickshell.Services.Pipewire
+import Quickshell.Hyprland
+import QtQml.Models
+import Quickshell.Wayland
 
 import "./windows/"
 import "./elements/"
@@ -128,6 +131,7 @@ Scope {
                                         font.pointSize: Theme.fontSize
                                     }
                                 }
+                                Workspaces {}
                                 Rectangle {
                                     Layout.fillWidth: true
                                 }

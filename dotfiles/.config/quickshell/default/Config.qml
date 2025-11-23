@@ -18,6 +18,7 @@ Singleton {
     property bool volumeEnabled: true
     property bool memEnabled: true
     property bool cpuEnabled: true
+    property bool workspacesEnabled: true
 
     // Center Side
     property bool mprisBarEnabled: true
@@ -57,6 +58,9 @@ Singleton {
     // The device you would like the slider to affect. This varies from device to device, but the most common seems to be 'intel_backlight'.
     property string backlightDeviceName: "intel_backlight"
 
+    // Workspaces
+    property bool showOnlyIds: false
+    
     // Mpris
     property int albumArtMenuSize: 250
     property bool showAlbumArt: true

@@ -98,7 +98,7 @@ RowLayout {
 
         WrapperMouseArea {
             property real maximumWidth: Config.maximumWidth != 0 ? Config.maximumWidth :
-                root.parent.width - 
+                root.barRoot.width / 3 - 
                     (albumArt.visible ? 
                         (albumArt.width + root.spacing) * 2 : 0) + 
                             (shuffleToggle.visible ? shuffleToggle.width + root.spacing : 0) + 
