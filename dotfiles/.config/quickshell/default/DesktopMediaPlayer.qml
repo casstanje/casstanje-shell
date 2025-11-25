@@ -44,7 +44,8 @@ Scope {
                 margin: 8
 
                 ColumnLayout {
-                    Text {
+                    spacing: Theme.listSpacing
+		    Text {
                         visible: MprisController.activePlayer == null || MprisController.activePlayer.trackTitle == ""
                         text: "NO MUSIC PLAYING"
                         color: Theme.subtext
@@ -53,7 +54,6 @@ Scope {
                         font.italic: true
                     }
                     
-                    spacing: Theme.listSpacing
                     RowLayout {
                         visible: MprisController.activePlayer != null && MprisController.activePlayer.trackTitle != ""
                         spacing: 0
@@ -90,7 +90,7 @@ Scope {
                     }
                     RowLayout {
                         visible: MprisController.activePlayer != null && MprisController.activePlayer.trackTitle != ""
-                        spacing: Theme.listSpacing
+                        spacing: Theme.listSpacing * 2
                         WrapperRectangle {
                             visible: MprisController.activePlayer.trackArtUrl != "" && Config.showAlbumArt
                             id: albumArt
