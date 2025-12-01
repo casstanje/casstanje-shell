@@ -30,6 +30,7 @@ Singleton {
 
     /* Desktop Widgets */
     property bool desktopMediaPlayerEnabled: false
+    property bool desktopClockEnabled: false
 
     /*SPECIFIC MODULE SETTINGS*/
 

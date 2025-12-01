@@ -144,6 +144,12 @@
         "type": "bool",
         "default": "false",
         "description": ""
+      },
+      "clock enabled": {
+        "name": "desktopClockEnabled",
+        "type": "bool",
+        "default": "false",
+        "description": ""
       }
     },
     "module settings": {
