@@ -19,12 +19,12 @@ Scope {
             screen: modelData
 
             anchors {
+                bottom: true
                 left: true
-                top: true
             }
 
             margins {
-                top: DynamicVars.barHeight + Theme.screenGap
+                bottom:  Theme.screenGap
                 left: Theme.screenGap
             }
 
@@ -45,11 +45,11 @@ Scope {
 
                 ColumnLayout {
                     spacing: Theme.listSpacing
-		    Text {
+                    Text {
                         visible: MprisController.activePlayer == null || MprisController.activePlayer.trackTitle == ""
                         text: "NO MUSIC PLAYING"
                         color: Theme.subtext
-                        font.pointSize: Theme.fontSize
+                        font.pointSize: Theme.fontSize * 1.5
                         font.bold: false
                         font.italic: true
                     }
@@ -60,7 +60,7 @@ Scope {
                         Text {
                             text: "NOW PLAYING..."
                             color: Theme.subtext
-                            font.pointSize: Theme.fontSize
+                            font.pointSize: Theme.fontSize * 1.5
                             font.bold: false
                             font.italic: true
                         }
@@ -83,7 +83,7 @@ Scope {
                                 (lengthSeconds.toString().length == 1 ? "0" + lengthSeconds : lengthSeconds)
                             )
                             text: positionString + "/" + lengthString
-                            font.pointSize: Theme.fontSize
+                            font.pointSize: Theme.fontSize * 1.5
                             font.italic: true
                             color: Theme.subtext
                         }
@@ -117,7 +117,7 @@ Scope {
                                     Text {
                                         text: MprisController.activePlayer.trackTitle
                                         color: Theme.text
-                                        font.pointSize: Theme.fontSize * 1.3
+                                        font.pointSize: Theme.fontSize * 1.8
                                         font.bold: true
                                         font.italic: true
                                     }
@@ -125,7 +125,7 @@ Scope {
                                         visible: text != ""
                                         text: (MprisController.activePlayer.trackArtist != "" ? MprisController.activePlayer.trackArtist : "") + (MprisController.activePlayer.trackAlbum != "" ? ", " + MprisController.activePlayer.trackAlbum : "")
                                         color: Theme.text
-                                        font.pointSize: Theme.fontSize
+                                        font.pointSize: Theme.fontSize * 1.5
                                     }
                                 }
                             }
@@ -144,12 +144,12 @@ Scope {
                                     WrapperRectangle {
                                         color: "transparent"
                                         implicitWidth: height
-                                        leftMargin: 7.5
+                                        leftMargin: 12
                                         topMargin: 1
                                         Text {
                                             text: "󰒮" /*nf-md-skip_previous*/
                                             color: Theme.text
-                                            font.pointSize: 16
+                                            font.pointSize: 23
                                         }
                                     }
                                 }
@@ -210,15 +210,15 @@ Scope {
                                         radius: height / 2
                                         color: Theme.accent
                                         margin: 8
-                                        leftMargin: !MprisController.activePlayer.isPlaying ? 14 : 12.5
-                                        topMargin: !MprisController.activePlayer.isPlaying ? 9 : 7
+                                        leftMargin: !MprisController.activePlayer.isPlaying ? 19 : 17.5
+                                        topMargin: !MprisController.activePlayer.isPlaying ? 12.5 : 9.5
                                         implicitWidth: height
-                                        implicitHeight: 35
+                                        implicitHeight: 50
 
                                         Text {
                                             text: !MprisController.activePlayer.isPlaying ? "" /*nf-fa-play*/ : "" /*nf-fa-pause*/
                                             color: Theme.background
-                                            font.pointSize: !MprisController.activePlayer.isPlaying ? 10 : 12
+                                            font.pointSize: !MprisController.activePlayer.isPlaying ? 15 : 18
                                         }
                                     }
                                 }
@@ -234,13 +234,13 @@ Scope {
                                     WrapperRectangle {
                                         color: "transparent"
                                         implicitWidth: height
-                                        leftMargin: 7.5
+                                        leftMargin: 12
                                         topMargin: 1
 
                                         Text {
                                             text: "󰒭" /*nf-md-skip_next*/
                                             color: Theme.text
-                                            font.pointSize: 16
+                                            font.pointSize: 23
                                         }
                                     }
                                 }
