@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Pipewire
 import QtQuick
@@ -12,9 +13,6 @@ import "./../elements"
 
 PopupWindow {
     id: root
-    property var onEnteredCallback: function(){}
-    property var onExitedCallback: function(){}
-    property var closeWindow: function(){}
     property var container: container
     property var button
     property var barRoot
@@ -33,27 +31,43 @@ PopupWindow {
         return newList
     }
 
+    HyprlandFocusGrab {
+        id: grab
+        windows: [ root ]
+        onCleared: {
+            root.visible = false;
+        }
+    }
+
     PwObjectTracker {
         objects: root.usableNodes()
     }
 
     ClippingRectangle {
+        id: parentContainer
         x: root.button.parent.mapToItem(root.barRoot, root.button.x, 0).x
         y: root.barRoot.implicitHeight
         implicitHeight: mouseArea.implicitHeight
-        NumberAnimation on implicitHeight {
+        SequentialAnimation {
             id: spawnAnim
             running: root.visible
-            from: 0; to: mouseArea.implicitHeight
-            duration: 150
+            NumberAnimation {
+                target: parentContainer
+                property: "implicitHeight"
+                from: 0; to: container.implicitHeight
+                duration: 150
+            }
+            ScriptAction {
+                script: {
+                    grab.active = true;
+                }
+            }
         }
         implicitWidth: mouseArea.implicitWidth
         color: "transparent"
         WrapperMouseArea {
             id: mouseArea
             hoverEnabled: true
-            onEntered: { root.onEnteredCallback() }
-            onExited: { root.onExitedCallback() }
 
             WrapperRectangle {
                 id: container
@@ -71,7 +85,7 @@ PopupWindow {
                         ColumnLayout {
                             id: nodeItem
                             required property var modelData
-                            property bool isActive: Pipewire.defaultAudioSink.id == modelData.id
+                            property bool isActive: Pipewire.defaultAudioSink != null ? Pipewire.defaultAudioSink.id == modelData.id : false
                             RowLayout {
                                 spacing: 0
                                 Text {
@@ -136,7 +150,9 @@ PopupWindow {
                                     to: 1
                                     value: nodeItem.modelData.audio.volume
                                     onValueChanged: {
-                                        nodeItem.modelData.audio.volume = volumeSlider.value
+                                        if(nodeItem.modelData.audio.bound) {
+                                            nodeItem.modelData.audio.volume = volumeSlider.value
+                                        }
                                     }
                                     Layout.fillWidth: true
                                     background: SliderBackground {}
@@ -156,7 +172,6 @@ PopupWindow {
 
                     ClickableContainer {
                         onClicked: {
-                            root.closeWindow()
                             pavucontrolProc.running = true
                         }
                         Layout.fillWidth: true

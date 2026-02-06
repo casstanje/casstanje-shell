@@ -24,7 +24,7 @@ WrapperMouseArea {
         RowLayout {
             spacing: 6
             Loader {
-                visible: root.modelData.buttonType != QsMenuButtonType.None || root.modelData.icon != ""
+                visible: root.modelData != null ? root.modelData.buttonType != QsMenuButtonType.None || root.modelData.icon != "" : false
 
                 id: iconLoader
                 property Component check: Component {
@@ -52,12 +52,18 @@ WrapperMouseArea {
                     }
                 }
 
-                sourceComponent: root.modelData.buttonType == QsMenuButtonType.None ? icon : check
+                property Component empty : Component {
+                    Text {
+                        text: ""
+                    }
+                }
+
+                sourceComponent: root.modelData == null ? empty : root.modelData.buttonType == QsMenuButtonType.None ? icon : check
             }
             Text {
                 padding: 2
                 Layout.minimumWidth: root.minimumWidth - (parent.width - width)
-                text: root.modelData.text
+                text: root.modelData != null ? root.modelData.text : ""
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: Theme.fontSize

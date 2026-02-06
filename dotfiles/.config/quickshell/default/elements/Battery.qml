@@ -17,7 +17,6 @@ ClippingRectangle {
     property bool powerProfilesExists: false
     property bool brightnessctlExists: false
 
-    property bool showWindow: false
     property bool windowHoveredOver: false
 
 
@@ -54,13 +53,7 @@ ClippingRectangle {
             hasBorder: true
 
             onClicked: {
-                root.showWindow = true
-                UIVars.closePopupFunctions.push(function():Boolean{
-                    if(!hoveredOver && !root.windowHoveredOver){
-                        root.showWindow = false
-                        return true
-                    }else return false
-                })
+                powerWindow.visible = true
             }
 
             Text {
@@ -81,20 +74,11 @@ ClippingRectangle {
         }
 
         PowerMenu {
-            visible: root.showWindow
-
+            id: powerWindow
             anchor {
                 window: root.barRoot.window
                 rect.x: 0
                 rect.y: 0
-            }
-
-            onEnteredCallback: function() {
-                root.windowHoveredOver = true
-            }
-
-            onExitedCallback: function() {
-                root.windowHoveredOver = false
             }
         
             barRoot: root.barRoot

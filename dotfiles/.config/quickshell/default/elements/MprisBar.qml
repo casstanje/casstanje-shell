@@ -14,13 +14,12 @@ RowLayout {
     required property var barRoot
     property var trackedPlayer: null
     property list<MprisPlayer> players: MprisController.players
-    property MprisPlayer firstPlayer: players[0]
+    property MprisPlayer firstPlayer: players.length > 0 ? players[0] : null
     property MprisPlayer activePlayer: MprisController.activePlayer
     property bool windowHoveredOver: false
-    property bool showWindow: false
     
     visible: Mpris.players.values.length > 0  && Config.mprisBarEnabled
-    property string constructedMediaString: activePlayer.trackTitle == "" ? "no music playing (" + activePlayer.identity.toLowerCase() + ")" : (
+    property string constructedMediaString: activePlayer == null ? "" : (activePlayer?.trackTitle == "" ? "no music playing (" + activePlayer.identity.toLowerCase() + ")" : (
         ((activePlayer.isPlaying ? "" /*nf-fa-pause*/ : "" /*nf-fa-play*/) + " ") +
         ((activePlayer.trackTitle != "" ? "<i>"+activePlayer.trackTitle+"</i>" : "") +
         (activePlayer.trackTitle != "" && 
@@ -29,16 +28,16 @@ RowLayout {
         ((activePlayer.trackTitle != "" || activePlayer.trackArtist != "") && 
             activePlayer.trackAlbum != "" ? " - " : "") +
         (activePlayer.trackAlbum != "" ? activePlayer.trackAlbum : ""))
-    )
+    ))
     WrapperRectangle {
-        visible: root.activePlayer.trackArtUrl != "" && Config.showAlbumArt
+        visible: (root.activePlayer?.trackArtUrl ?? "") != "" && Config.showAlbumArt
         id: albumArt
         Layout.fillHeight: true
         color: "transparent"
         ClippingWrapperRectangle{
             radius: Theme.borderRadius
             Image {
-                source: root.activePlayer.trackArtUrl
+                source: root.activePlayer?.trackArtUrl ?? ""
                 sourceSize.height: height
                 width: paintedWidth
                 fillMode: Image.PreserveAspectFit
@@ -49,27 +48,27 @@ RowLayout {
     
     ClickableContainer {
         id: shuffleToggle
-        visible: root.activePlayer.shuffleSupported && Config.showShuffleButton
+        visible: (root.activePlayer?.shuffleSupported ?? false) && Config.showShuffleButton
         onClicked: {
             root.activePlayer.shuffle = !root.activePlayer.shuffle
         }
         Text {
             text: "" /*nf-fa-shuffle*/
-            color: root.activePlayer.shuffle ? Theme.accent : Theme.surface
+            color: (root.activePlayer?.shuffle ?? false) ? Theme.accent : Theme.surface
             font.family: Theme.fontFamily
             font.pointSize: Theme.fontSize
         }
     }
     ClickableContainer {
         id: loopToggle
-        visible: root.activePlayer.loopSupported && Config.showRepeatButton
+        visible: (root.activePlayer?.loopSupported ?? false) && Config.showRepeatButton
         onClicked: {
-            var loopState = root.activePlayer.loopState
+            var loopState = root.activePlayer?.loopState ?? MprisLoopState.None
             root.activePlayer.loopState = loopState == MprisLoopState.None ? MprisLoopState.Playlist : loopState ==  MprisLoopState.Playlist ? MprisLoopState.Track : MprisLoopState.None
         }
         Text {
-            text: root.activePlayer.loopState == MprisLoopState.Track ? "1 " : "" /*nf-fa-repeat_alt*/
-            color: root.activePlayer.loopState == MprisLoopState.None ? Theme.surface : Theme.accent
+            text: (root.activePlayer?.loopState ?? MprisLoopState.None) == MprisLoopState.Track ? "1 " : "" /*nf-fa-repeat_alt*/
+            color: (root.activePlayer?.loopState ?? MprisLoopState.None) == MprisLoopState.None ? Theme.surface : Theme.accent
             font.family: Theme.fontFamily
             font.pointSize: Theme.fontSize
         }
@@ -85,12 +84,12 @@ RowLayout {
             visible: mediaString.showPosition
             anchors.left: mediaString.left
             anchors.top: mediaString.top
-            width: parent.width * (root.activePlayer.position / root.activePlayer.length)
+            width: parent.width * (root.activePlayer != null ? (root.activePlayer.position / root.activePlayer.length) : 0)
             height: parent.height
             color: Theme.surface
             FrameAnimation {
                 // only emit the signal when the position is actually changing.
-                running: root.activePlayer.playbackState == MprisPlaybackState.Playing && mediaString.showPosition && root.activePlayer != null
+                running: (root.activePlayer?.playbackState ?? MprisPlaybackState.Paused) == MprisPlaybackState.Playing && mediaString.showPosition && root.activePlayer != null
                 // emit the positionChanged signal every frame.
                 onTriggered: if(root.activePlayer != null) root.activePlayer.positionChanged()
             }
@@ -111,7 +110,7 @@ RowLayout {
                 }
             }
             
-            property var showPosition: root.activePlayer.positionSupported && Config.showPosition
+            property var showPosition: (root.activePlayer?.positionSupported ?? false) && Config.showPosition
             margin: 0
             anchors.centerIn: parent
             id: mediaString
@@ -125,15 +124,9 @@ RowLayout {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             onClicked: function(mouse) {
                 if(mouse.button == Qt.LeftButton && root.activePlayer.canTogglePlaying){
-                root.activePlayer.togglePlaying() 
+                    root.activePlayer.togglePlaying() 
                 }else if(mouse.button == Qt.RightButton){
-                    root.showWindow = true
-                    UIVars.closePopupFunctions.push(function():Boolean{ 
-                        if(!root.windowHoveredOver && !mediaString.hoveredOver){
-                            root.showWindow = false
-                            return true
-                        }else return false
-                    })
+                    mprisWindow.visible = true
                 }
             }
 
@@ -171,7 +164,7 @@ RowLayout {
     }
 
     WrapperRectangle { // Centers the song text in the middle by adding an item with the same width as the album art on the opposite side
-        visible: root.activePlayer.trackArtUrl != "" && Config.showAlbumArt
+        visible: (root.activePlayer?.trackArtUrl ?? "") != "" && Config.showAlbumArt
         Layout.fillHeight: true
         margin: 4
         color: "transparent"
@@ -180,14 +173,6 @@ RowLayout {
 
     MprisWindow {
         id: mprisWindow
-        visible: root.showWindow
-
-        onEnteredCallback: function(){
-            root.windowHoveredOver = true
-        }
-        onExitedCallback: function(){
-            root.windowHoveredOver = false
-        }
         anchor {
             window: root.barRoot.window
             rect.x: 0

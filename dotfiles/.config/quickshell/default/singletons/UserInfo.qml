@@ -106,10 +106,4 @@ Singleton {
             usageInfoProc.running = true
         }
     }
-    
-    
-    IpcHandler {
-        target: "userInfo"
-        function mouseClicked(): void { root.mouseClicked = !root.mouseClicked }
-    }
 }

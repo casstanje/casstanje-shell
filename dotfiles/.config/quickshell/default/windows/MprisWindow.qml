@@ -7,6 +7,7 @@ import './../'
 import './../elements/'
 import './../singletons/'
 import Quickshell.Services.Mpris
+import Quickshell.Hyprland
 
 PopupWindow {
     id: root
@@ -16,10 +17,9 @@ PopupWindow {
     required property var barRoot
     required property var button
     property bool direction: false // False for left, True for right
-    property var onEnteredCallback: function(){}
-    property var onExitedCallback: function(){}
     property bool shouldUpdatePlayer: true
     function updateMenu() {
+        if(activePlayer == null) return;
         shouldUpdatePlayer = false
         playerWheel.newValue = activePlayer.identity
         playerWheel.currentIndex = MprisController.identities.indexOf(activePlayer.identity)
@@ -37,11 +37,17 @@ PopupWindow {
     implicitHeight: screen.height
     implicitWidth: screen.width
     mask: Region { item: mouseArea }
+
+    HyprlandFocusGrab {
+        id: grab
+        windows: [ root ]
+        onCleared: {
+            root.visible = false;
+        }
+    }
     
     WrapperMouseArea {
         hoverEnabled: true
-        onEntered: root.onEnteredCallback()
-        onExited: root.onExitedCallback()
         x: Math.round(root.button.parent.mapToItem(root.barRoot, root.button.x, 0).x + root.button.width / 2 - width / 2)
         y: Math.round(root.barRoot.implicitHeight)
         id: mouseArea
@@ -50,12 +56,23 @@ PopupWindow {
             implicitHeight: container.implicitHeight
             implicitWidth: container.implicitWidth
             color: "transparent"
-            NumberAnimation on implicitHeight {
+            SequentialAnimation {
                 id: spawnAnim
                 running: root.visible
-                from: 0; to: container.implicitHeight
-                duration: 150
+                NumberAnimation {
+                    target: clipper;
+                    property: "implicitHeight"
+                    from: 0; to: container.implicitHeight;
+                    duration: 150
+                }
+                ScriptAction {
+                    script: {
+                        grab.active = true;
+                    }
+                }
             }
+
+            
 
             WrapperRectangle {
                 id: container
@@ -72,7 +89,7 @@ PopupWindow {
                     ElementWheel {
                         id: playerWheel
                         model: MprisController.identities
-                        currentIndex: MprisController.identities.indexOf(root.activePlayer.identity)
+                        currentIndex: root.activePlayer?.identity != null ? MprisController.identities.indexOf(root.activePlayer.identity) : 0
                         justSetNewValue: true
                         onNewValueChanged: {
                             if(!root.shouldUpdatePlayer) return
@@ -86,12 +103,12 @@ PopupWindow {
                     ColumnLayout {
                         Layout.fillWidth: true
                         ClippingWrapperRectangle{
-                            visible: root.activePlayer.trackArtUrl != ""
+                            visible: (root.activePlayer?.trackArtUrl ?? "") != ""
                             radius: Theme.borderRadius
                             implicitWidth: Config.albumArtMenuSize
                             Layout.alignment: Qt.AlignHCenter
                             Image {
-                                source: root.activePlayer.trackArtUrl
+                                source: (root.activePlayer?.trackArtUrl ?? "")
                                 sourceSize.width: width
                                 fillMode: Image.PreserveAspectFit
                                 verticalAlignment: Qt.AlignTop
@@ -106,31 +123,31 @@ PopupWindow {
                             Text {
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignHCenter
-                                text: root.activePlayer.trackTitle != "" ? root.activePlayer.trackTitle : "no music playing"
+                                text: (root.activePlayer?.trackTitle ?? "") ? root.activePlayer.trackTitle : "no music playing"
                                 font.family: Theme.fontFamily
                                 color: Theme.text
                                 font.pointSize: Theme.fontSize * 1.1
                                 horizontalAlignment: Qt.AlignHCenter
                             }
                             ColumnLayout {
-                                visible: root.activePlayer.trackArtist != "" || root.activePlayer.trackAlbum != ""
+                                visible: (root.activePlayer?.trackArtist ?? "") != "" || (root.activePlayer?.trackAlbum ?? "")
                                 Layout.fillWidth: true
                                 spacing: 0
                                 Text {
-                                    visible: root.activePlayer.trackArtist != ""
+                                    visible: (root.activePlayer?.trackArtist ?? "")
                                     Layout.fillWidth: true
                                     Layout.alignment: Qt.AlignHCenter
-                                    text: root.activePlayer.trackArtist
+                                    text: (root.activePlayer?.trackArtist ?? "")
                                     font.family: Theme.fontFamily
                                     color: Theme.subtext
                                     font.pointSize: Theme.fontSize * 1
                                     horizontalAlignment: Qt.AlignHCenter
                                 }
                                 Text {
-                                    visible: root.activePlayer.trackAlbum != ""
+                                    visible: (root.activePlayer?.trackAlbum ?? "")
                                     Layout.fillWidth: true
                                     Layout.alignment: Qt.AlignHCenter
-                                    text: root.activePlayer.trackAlbum
+                                    text: (root.activePlayer?.trackAlbum ?? "")
                                     font.family: Theme.fontFamily
                                     color: Theme.subtext
                                     font.pointSize: Theme.fontSize * 1
@@ -140,26 +157,28 @@ PopupWindow {
                             RowLayout {
                                 Layout.alignment: Qt.AlignHCenter
                                 id: controlsContainer
-                                visible: root.activePlayer.canControl
+                                visible: (root.activePlayer?.canControl ?? false)
                                 spacing: 2
                                 property real iconSizeMultiplier: 1.6
                                 ClickableContainer {
-                                    visible: root.activePlayer.shuffleSupported && Config.showShuffleButton
+                                    visible: (root.activePlayer?.shuffleSupported ?? false) && Config.showShuffleButton
                                     onClicked: {
                                         root.activePlayer.shuffle = !root.activePlayer.shuffle
                                     }
+                                    hasBorder: false
                                     Text {
                                         text: "" /*nf-fa-shuffle*/
-                                        color: root.activePlayer.shuffle ? Theme.accent : Theme.surface
+                                        color: (root.activePlayer?.shuffle ?? false) ? Theme.accent : Theme.surface
                                         font.family: Theme.fontFamily
                                         font.pointSize: Theme.fontSize * controlsContainer.iconSizeMultiplier
                                     }
                                 }
                                 ClickableContainer {
-                                    visible: root.activePlayer.canSeek
+                                    visible: (root.activePlayer?.canSeek ?? false)
                                     onClicked: {
                                         root.activePlayer.seek(-10)
                                     }
+                                    hasBorder: false
                                     Text {
                                         text: "󰴪" /*nf-md-rewind_10*/
                                         color: Theme.text
@@ -168,46 +187,64 @@ PopupWindow {
                                     }
                                 }
                                 ClickableContainer {
-                                    visible: root.activePlayer.canGoPrevious
+                                    visible: (root.activePlayer?.canGoPrevious ?? false)
                                     onClicked: {
                                         root.activePlayer.previous()
                                     }
+                                    radius: 100
+                                    implicitHeight: 33
+                                    implicitWidth: 33
                                     Text {
                                         text: "󰒮" /*nf-md-skip_previous*/
                                         color: Theme.text
                                         font.family: Theme.fontFamily
+                                        horizontalAlignment: Text.AlignHCenter
                                         font.pointSize: Theme.fontSize * controlsContainer.iconSizeMultiplier
                                     }
                                 }
                                 ClickableContainer {
-                                    visible: root.activePlayer.canTogglePlaying
+                                    visible: (root.activePlayer?.canTogglePlaying ?? false)
                                     onClicked: {
                                         root.activePlayer.togglePlaying()
                                     }
+                                    radius: 100
+                                    backgroundColor: Theme.accent
+                                    hoverBackgroundColor: Theme.accent
+                                    hasBorder: false
+                                    implicitWidth: 40
+                                    implicitHeight: 40
                                     Text {
-                                        text: !root.activePlayer.isPlaying ? "󰐊" /*nf-md-play*/ : "󰏤" /*nf-md-pause*/
-                                        color: Theme.text
+                                        Layout.fillWidth: true
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: !(root.activePlayer?.isPlaying ?? false) ? "󰐊" /*nf-md-play*/ : "󰏤" /*nf-md-pause*/
+                                        color: Theme.background
+                                        horizontalAlignment: Text.AlignHCenter
                                         font.family: Theme.fontFamily
                                         font.pointSize: Theme.fontSize * controlsContainer.iconSizeMultiplier * 1.3
                                     }
                                 }
                                 ClickableContainer {
-                                    visible: root.activePlayer.canGoNext
+                                    visible: (root.activePlayer?.canGoNext ?? false)
                                     onClicked: {
                                         root.activePlayer.next()
                                     }
+                                    radius: 100
+                                    implicitHeight: 33
+                                    implicitWidth: 33
                                     Text {
                                         text: "󰒭" /*nf-md-skip_next*/
                                         color: Theme.text
                                         font.family: Theme.fontFamily
+                                        horizontalAlignment: Text.AlignHCenter
                                         font.pointSize: Theme.fontSize * controlsContainer.iconSizeMultiplier
                                     }
                                 }
                                 ClickableContainer {
-                                    visible: root.activePlayer.canSeek
+                                    visible: (root.activePlayer?.canSeek ?? false)
                                     onClicked: {
                                         root.activePlayer.seek(10)
                                     }
+                                    hasBorder: false
                                     Text {
                                         text: "󰵱" /*nf-md-fast_forward_10*/
                                         color: Theme.text
@@ -217,14 +254,15 @@ PopupWindow {
                                 }
                                 
                                 ClickableContainer {
-                                    visible: root.activePlayer.loopSupported && Config.showRepeatButton
+                                    visible: (root.activePlayer?.loopSupported ?? false) && Config.showRepeatButton
                                     onClicked: {
                                         var loopState = root.activePlayer.loopState
                                         root.activePlayer.loopState = loopState == MprisLoopState.None ? MprisLoopState.Playlist : loopState ==  MprisLoopState.Playlist ? MprisLoopState.Track : MprisLoopState.None
                                     }
+                                    hasBorder: false
                                     Text {
-                                        text: root.activePlayer.loopState == MprisLoopState.Track ? "1 " : "" /*nf-fa-repeat_alt*/
-                                        color: root.activePlayer.loopState == MprisLoopState.None ? Theme.surface : Theme.accent
+                                        text: (root.activePlayer?.loopState ?? MprisLoopState.None) == MprisLoopState.Track ? "1 " : "" /*nf-fa-repeat_alt*/
+                                        color: (root.activePlayer?.loopState ?? MprisLoopState.None) == MprisLoopState.None ? Theme.surface : Theme.accent
                                         font.family: Theme.fontFamily
                                         font.pointSize: Theme.fontSize * controlsContainer.iconSizeMultiplier
                                     }
@@ -232,13 +270,13 @@ PopupWindow {
                             }
 
                             RowLayout {
-                                visible: root.activePlayer.volumeSupported && Config.showVolumeSlider
+                                visible: (root.activePlayer?.volumeSupported ?? false) && Config.showVolumeSlider
                                 implicitWidth: 300 < parent.implicitWidth ? parent.implicitWidth : 300
                                 Slider {
                                     id: volumeSlider
                                     from: 0
                                     to: 1
-                                    value: root.activePlayer.volume
+                                    value: (root.activePlayer?.volume ?? 0)
                                     onValueChanged: {
                                         root.activePlayer.volume = volumeSlider.value
                                     }

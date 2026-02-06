@@ -37,13 +37,7 @@ ClickableContainer {
     onClicked: function(mouse) {
         if(mouse.button != Qt.LeftButton){
             root.windowPosition = mapToItem(root.barRoot, root.x, root.y)
-            root.showWindow = true
-            UIVars.closePopupFunctions.push(function():Boolean{ 
-                if(!root.windowHoveredOver && !root.hoveredOver && !notifWindow.keepOpen){
-                    root.showWindow = false
-                    return true
-                }else return false
-            })
+            notifWindow.visible = true
         }else {
             dnd = !dnd
         }
@@ -82,14 +76,7 @@ ClickableContainer {
 
         NotificationWindow {
             id: notifWindow
-            visible: root.showWindow
             notifications: notifServer.trackedNotifications
-            onEnteredCallback: function(){
-                root.windowHoveredOver = true
-            }
-            onExitedCallback: function(){
-                root.windowHoveredOver = false
-            }
             dnd: root.dnd
             anchor {
                 window: root.barRoot.window

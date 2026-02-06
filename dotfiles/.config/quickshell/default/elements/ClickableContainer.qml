@@ -10,7 +10,9 @@ WrapperMouseArea {
     default required property var child
     property var rectangle: rectangle
     property color backgroundColor: "transparent"
+    property color hoverBackgroundColor: Theme.brightSurface
     property bool hasBorder: true
+    property double radius: Theme.borderRadius
 
     hoverEnabled: true
     property bool hoveredOver: false
@@ -20,11 +22,11 @@ WrapperMouseArea {
 
     WrapperRectangle {
         id: rectangle
-        color: hoveredOver ? Theme.brightSurface : root.backgroundColor
+        color: hoveredOver ? root.hoverBackgroundColor : root.backgroundColor
         margin: Theme.containerPadding
         leftMargin: Theme.containerPadding * 2
         rightMargin: Theme.containerPadding * 2
-        radius: Theme.borderRadius
+        radius: root.radius
         border.width: root.hasBorder ? Theme.smallBorderWidth : 0
         border.color: Theme.surface
         children: [root.child]

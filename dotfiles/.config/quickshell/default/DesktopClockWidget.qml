@@ -29,8 +29,8 @@ Scope {
             aboveWindows: false
             exclusionMode: ExclusionMode.Ignore
 
-            width: clockLayout.width
-            height: clockLayout.height
+            implicitWidth: clockLayout.width
+            implicitHeight: clockLayout.height
 
             color: "transparent"
 

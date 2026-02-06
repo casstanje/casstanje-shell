@@ -31,13 +31,7 @@ ClickableContainer {
         }else{
             windowPosition.x = root.parent.mapToItem(barRoot, root.x, 0).x
             windowPosition.y = barRoot.implicitHeight + 4
-            showWindow = true
-            UIVars.closePopupFunctions.push(function():Boolean{ 
-                if(!root.mouseInPopup && !root.hoveredOver){
-                    root.showWindow = false
-                    return true
-                }else return false
-            })
+            volumeWindow.visible = true;
         }
     }
 
@@ -49,38 +43,29 @@ ClickableContainer {
         }
 
         Text{
-            text: Pipewire.defaultAudioSink.audio.muted ? 
+            text: (Pipewire.defaultAudioSink?.audio?.muted ?? false) ? 
             "" /*nf-fa-volume_xmark*/ : (
-                Pipewire.defaultAudioSink.audio.volume > 0.5 ? 
+                (Pipewire.defaultAudioSink?.audio?.volume ?? 0) > 0.5 ? 
                 "" /*nf-fa-volume_high*/ : (
-                    Pipewire.defaultAudioSink.audio.volume == 0 ? 
+                    (Pipewire.defaultAudioSink?.audio?.volume ?? 0) == 0 ? 
                     "" /*nf-fa-volume_off*/ : 
                     "" /*nf-fa-volume_low*/
                 )
             )
             font.family: Theme.fontFamily
             font.pointSize: Theme.fontSize
-            color: Pipewire.defaultAudioSink.audio.muted ? Theme.error : Theme.text
+            color: (Pipewire.defaultAudioSink?.audio?.muted ?? false) ? Theme.error : Theme.text
         }
 
         Text {
-            text: Math.round((Pipewire.defaultAudioSink.audio.volume * 100)) + "%"
+            text: Math.round(((Pipewire.defaultAudioSink?.audio?.volume ?? 0) * 100)) + "%"
             font.family: Theme.fontFamily
             font.pointSize: Theme.fontSize
             color: Theme.text
         }
 
         VolumeControlWindow {
-            visible: root.showWindow
-            onEnteredCallback: function(){
-                root.mouseInPopup = true
-            }
-            onExitedCallback: function(){
-                root.mouseInPopup = false
-            }
-            closeWindow: function(){
-                root.showWindow = false
-            }
+            id: volumeWindow
             anchor {
                 window: root.barRoot.window
                 rect.x: 0

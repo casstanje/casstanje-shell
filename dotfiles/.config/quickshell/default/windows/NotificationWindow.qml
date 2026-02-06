@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import QtQuick
@@ -11,8 +12,6 @@ import "./../elements/"
 PopupWindow {
     id: root
     required property var notifications
-    property var onEnteredCallback: function() {}
-    property var onExitedCallback: function() {}
     property bool anyNotifications: false
     property bool dnd: false 
     property bool keepOpen: false
@@ -26,25 +25,41 @@ PopupWindow {
     implicitWidth: barRoot.window.screen.width
     implicitHeight: barRoot.window.screen.height
 
+    HyprlandFocusGrab {
+        id: grab
+        windows: [ root ]
+        onCleared: {
+            root.visible = false;
+        }
+    }
+
     ClippingRectangle {
+        id: parentContainer
         x: root.button.parent.mapToItem(root.barRoot, root.button.x - implicitWidth + root.button.implicitWidth, 0).x
         y: root.barRoot.implicitHeight
 
         implicitHeight: container.implicitHeight
         color: "transparent"
-        NumberAnimation on implicitHeight {
+        SequentialAnimation {
             id: spawnAnim
             running: root.visible
-            from: 0; to: container.implicitHeight
-            duration: 150
+            NumberAnimation {
+                target: parentContainer
+                property: "implicitHeight"
+                from: 0; to: container.implicitHeight
+                duration: 150
+            }
+            ScriptAction {
+                script: {
+                    grab.active = true;
+                }
+            }
         }
 
         implicitWidth: container.implicitWidth
         WrapperMouseArea {
             id: mouseArea
             hoverEnabled: true
-            onEntered: { root.onEnteredCallback() }
-            onExited: { root.onExitedCallback() }
             Layout.maximumHeight: 800
             Layout.fillHeight: true
 

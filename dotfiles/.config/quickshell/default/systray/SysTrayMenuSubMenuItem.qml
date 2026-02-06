@@ -35,7 +35,7 @@ WrapperMouseArea {
             Text {
                 padding: 2
                 Layout.minimumWidth: root.minimumWidth
-                text: root.modelData.text + " " /*nf-fa-caret_right*/
+                text: root.modelData != null ? root.modelData.text + " " : false /*nf-fa-caret_right*/
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pointSize: Theme.fontSize

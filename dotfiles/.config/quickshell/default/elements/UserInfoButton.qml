@@ -28,24 +28,11 @@ WrapperMouseArea {
 
     onClicked: function(mouse){
         root.windowLocation = root.parent.mapToItem(root.barRoot, root.x, root.y)
-        showWindow = true
-        UIVars.closePopupFunctions.push(function():Boolean{ 
-            if(!root.mouseInPopup && !root.hoveredOver){
-                root.showWindow = false
-                return true
-            }else return false
-        })
+        infoWindow.visible = true
     }
 
     UserInfoWindow {
-        visible: root.showWindow
-        closeWindow: function() { root.showWindow = false }
-        onExitedCallback: function() {
-            root.mouseInPopup = false
-        }
-        onEnteredCallback: function() {
-            root.mouseInPopup = true
-        }
+        id: infoWindow
         anchor {
             window: root.barRoot.window
             rect.x: 0

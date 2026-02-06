@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
@@ -9,9 +10,6 @@ import "./../elements"
 
 PopupWindow {
     id: root
-    property var onEnteredCallback: function () {}
-    property var onExitedCallback: function () {}
-    property var closeWindow: function () {}
     property var barRoot
     property var button
     implicitWidth: barRoot.window.screen.width
@@ -20,30 +18,41 @@ PopupWindow {
 
     mask: Region { item: mouseArea }
 
+    HyprlandFocusGrab {
+        id: grab
+        windows: [ root ]
+        onCleared: {
+            root.visible = false;
+        }
+    }
+
     WrapperMouseArea {
         id: mouseArea
         hoverEnabled: true
-        onEntered: {
-            root.onEnteredCallback();
-        }
-        onExited: {
-            root.onExitedCallback();
-        }
-
         x: Math.round(root.barRoot.leftMargin * 2)
         y: Math.round(root.barRoot.implicitHeight)
         ClippingRectangle {
+            id: parentContainer
             implicitWidth: container.implicitWidth
             implicitHeight: container.implicitHeight
 
-            color: "transparent"
-            NumberAnimation on implicitHeight {
+            SequentialAnimation {
                 id: spawnAnim
                 running: root.visible
-                from: 0
-                to: container.implicitHeight
-                duration: 150
+                NumberAnimation {
+                    target: parentContainer
+                    property: "implicitHeight"
+                    from: 0; to: container.implicitHeight
+                    duration: 150
+                }
+                ScriptAction {
+                    script: {
+                        grab.active = true;
+                    }
+                }
             }
+
+            color: "transparent"
             WrapperRectangle {
                 id: container
 
@@ -65,7 +74,7 @@ PopupWindow {
                                 implicitHeight: infoColumn.implicitHeight
                                 implicitWidth: infoColumn.implicitHeight
                                 Image {
-                                    source: UserInfo.face
+                                    source: UserInfo.face == "false" ? "" : UserInfo.face
                                     sourceSize.width: infoColumn.implicitHeight
                                 }
                             }
@@ -182,7 +191,6 @@ PopupWindow {
                         ClickableContainer {
                             Layout.fillWidth: true
                             onClicked: {
-                                root.closeWindow();
                                 displaysProc.running = true;
                             }
                             Text {
@@ -196,7 +204,6 @@ PopupWindow {
                         ClickableContainer {
                             Layout.fillWidth: true
                             onClicked: {
-                                root.closeWindow();
                                 Quickshell.execDetached(["quickshell", "-p", Quickshell.shellDir + "/CustomizationWindow.qml"]);
                             }
                             Text {

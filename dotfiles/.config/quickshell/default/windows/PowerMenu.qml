@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Services.UPower
 import Quickshell.Io
@@ -14,8 +15,6 @@ PopupWindow {
 
     required property var barRoot
     required property var button
-    property var onExitedCallback: function(){}
-    property var onEnteredCallback: function(){}
     property real currentBrightness
     property string startProfileString: PowerProfile.toString(PowerProfiles.profile).toLowerCase()
     property int currentProfile: startProfileString == "powersaver" ? 0 : (startProfileString == "balanced" ? 1 : 2)
@@ -26,29 +25,40 @@ PopupWindow {
     implicitWidth: barRoot.window.screen.width
 
     mask: Region { item: mouseArea }
+
+    HyprlandFocusGrab {
+        id: grab
+        windows: [ root ]
+        onCleared: {
+            root.visible = false;
+        }
+    }
     ClippingRectangle {
+        id: parentContainer
         x: root.button.parent.mapToItem(root.barRoot, root.button.x, 0).x
         y: root.barRoot.implicitHeight
 
         implicitHeight: mouseArea.implicitHeight
-        NumberAnimation on implicitHeight {
-            from: 0; to: mouseArea.implicitHeight;
-            duration: 150
+        SequentialAnimation {
+            id: spawnAnim
             running: root.visible
+            NumberAnimation {
+                target: parentContainer
+                property: "implicitHeight"
+                from: 0; to: container.implicitHeight
+                duration: 150
+            }
+            ScriptAction {
+                script: {
+                    grab.active = true;
+                }
+            }
         }
         implicitWidth: mouseArea.implicitWidth
         color: "transparent"
         WrapperMouseArea {
             id: mouseArea
             hoverEnabled: true
-
-            onEntered: {
-                root.onEnteredCallback()
-            }
-
-            onExited: {
-                root.onExitedCallback()
-            }
             
             WrapperRectangle {
                 id: container
