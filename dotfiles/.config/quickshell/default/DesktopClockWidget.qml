@@ -18,12 +18,10 @@ Scope {
 
             anchors {
                 top: true
-                right: true
             }
 
             margins {
                 top: DynamicVars.barHeight
-                right: Theme.screenGap
             }
 
             aboveWindows: false
@@ -41,18 +39,18 @@ Scope {
                 margin: 0
                 bottomMargin: 0
                 ColumnLayout {
-                    layoutDirection: Qt.RightToLeft
                     spacing: 0
                     Text {
                         id: clock
-                        text: Time.justTime
+                        text: Time.justTime.replace(":", Number(Time.seconds) % 2 == 0 ? ":" : " ")
+                        topPadding: -10
+                        bottomPadding: -10
                         font.pointSize: 80
-                        lineHeight: 0
                         color: Theme.accent
-                        rightPadding: -6 // Meh
                     }
                     RowLayout {
-                        property real textTopPadding: -15
+                        Layout.alignment: Qt.AlignHCenter
+                        property real textTopPadding: -10
                         
                         spacing: 0
                         Text {
@@ -76,8 +74,7 @@ Scope {
 
                 }
             }
-
-
         }
     }
 }
+
