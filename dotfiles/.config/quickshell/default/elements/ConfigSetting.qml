@@ -112,8 +112,8 @@ ColumnLayout {
                 border.color: Theme.accent 
                 ElementWheel {
                     Layout.fillWidth: true
-                    model: ["seconds", "minutes", "hours"]
-                    currentIndex: Number(root.modelData["value"])
+                    items: ["seconds", "minutes", "hours"]
+                    initialValue: Number(root.modelData["value"])
                 }
             }
         }

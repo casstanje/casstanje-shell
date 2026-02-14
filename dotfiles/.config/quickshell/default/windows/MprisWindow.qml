@@ -21,10 +21,8 @@ PopupWindow {
     function updateMenu() {
         if(activePlayer == null) return;
         shouldUpdatePlayer = false
-        playerWheel.newValue = activePlayer.identity
-        playerWheel.currentIndex = MprisController.identities.indexOf(activePlayer.identity)
-        playerWheel.model = MprisController.identities
-        playerWheel.changeValue(true)
+        playerWheel.value = MprisController.identities.indexOf(activePlayer.identity)
+        playerWheel.items = MprisController.identities
         shouldUpdatePlayer = true
     }
     onActivePlayerChanged: {
@@ -87,14 +85,14 @@ PopupWindow {
                 ColumnLayout {
                     id: songColumn
                     ElementWheel {
+                        Layout.fillWidth: true
                         id: playerWheel
-                        model: MprisController.identities
-                        currentIndex: root.activePlayer?.identity != null ? MprisController.identities.indexOf(root.activePlayer.identity) : 0
-                        justSetNewValue: true
-                        onNewValueChanged: {
+                        items: MprisController.identities
+                        initialValue: root.activePlayer?.identity != null ? MprisController.identities.indexOf(root.activePlayer.identity) : 0
+                        onValueChanged: {
                             if(!root.shouldUpdatePlayer) return
                             var result = MprisController.players.filter(x => {
-                                return x.identity === newValue
+                                return x.identity === playerWheel.textFromValue(value)
                             })[0]
                             MprisController.trackedPlayer = result
                         }

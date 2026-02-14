@@ -38,29 +38,6 @@ Scope {
 
             color: "transparent"
 
-            property var mouseClicked: UserInfo.mouseClicked
-
-            property var closeAllPopups: function() {
-                if(UIVars.closePopupFunctions.length > 0){
-                    var functionsToRemove = [];
-                    for (var closeFunction of UIVars.closePopupFunctions) {
-                        var res = closeFunction()
-                        if(res) {
-                            functionsToRemove.push(UIVars.closePopupFunctions.indexOf(closeFunction))
-                        }
-                    }
-                    for (var funtionToRemove of functionsToRemove){
-                        UIVars.closePopupFunctions.splice(functionsToRemove, 1)
-                    }
-                }
-            }
-
-            
-
-            onMouseClickedChanged: function() {
-                closeAllPopups()
-            }
-
             WrapperRectangle {
                 margin: Theme.screenGap
                 bottomMargin: 0
@@ -68,7 +45,6 @@ Scope {
                 implicitHeight: parent.height
                 color: "transparent"
                 id: barRoot
-                property var closeAllPopups: window.closeAllPopups
                 property var window: window
 
                 Component.onCompleted: {
@@ -146,6 +122,7 @@ Scope {
                                 Layout.fillHeight: true
 
                                 MprisBar {
+                                    Layout.fillWidth: true
                                     barRoot: barRoot
                                     Layout.alignment: Qt.AlignHCenter
                                 }
@@ -181,40 +158,6 @@ Scope {
                 }
 
             }
-        }
-    }
-
-    // Add keybinds to hyprland for telling quickshell that the mouse has been clicked. Used for closing popup windows when clicked they're outside of
-    Process {
-        id: bindLeftButtonProc
-        command: ["hyprctl", "keyword", "bindn", ",mouse:272,exec,qs ipc call userInfo mouseClicked"]
-    }
-
-    Process {
-        id: bindRightButtonProc
-        command: ["hyprctl", "keyword", "bindn", ",mouse:273,exec,qs ipc call userInfo mouseClicked"]
-    }
-
-    Process {
-        id: checkIfMouseBindExistsProc
-        command: ["hyprctl", "binds"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                if(!this.text.includes("arg: qs ipc call userInfo mouseClicked")){
-                    bindLeftButtonProc.running = true
-                    bindRightButtonProc.running = true
-                }
-            }
-        }
-        running: true
-    }
-
-    Timer {
-        running: true
-        repeat: true
-        interval: 10000
-        onTriggered: {
-            checkIfMouseBindExistsProc.running = true
         }
     }
 }

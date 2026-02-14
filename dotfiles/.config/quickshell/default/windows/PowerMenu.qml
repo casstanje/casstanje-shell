@@ -80,20 +80,14 @@ PopupWindow {
                             font.family: Theme.fontFamily
                             font.pointSize: Theme.fontSize
                         }
-                        Container {
+                        
+                        ElementWheel {
                             Layout.fillWidth: true
-                            Layout.minimumWidth: 300
-                            topMargin: leftMargin
-                            bottomMargin: topMargin
-                            
-                            ElementWheel {
-                                id: powerProfileWheel
-                                model: PowerProfiles.hasPerformanceProfile ? ["powersaver", "balanced", "perfomance"] : ["powersaver", "balanced"]
-                                currentIndex: root.currentProfile
-                                onCurrentIndexChanged: {
-                                    PowerProfiles.profile = currentIndex
-                                    newValue = PowerProfile.toString(PowerProfiles.profile).toLowerCase()
-                                }
+                            items: PowerProfiles.hasPerformanceProfile ? ["powersaver", "balanced", "perfomance"] : ["powersaver", "balanced"]
+                            initialValue: root.currentProfile
+
+                            onValueChanged: {
+                                PowerProfiles.profile = value;
                             }
                         }
                     }
