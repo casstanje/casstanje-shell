@@ -86,7 +86,7 @@ PopupWindow {
                             items: PowerProfiles.hasPerformanceProfile ? ["powersaver", "balanced", "perfomance"] : ["powersaver", "balanced"]
                             initialValue: root.currentProfile
 
-                            onValueChanged: {
+                            onValueModified: {
                                 PowerProfiles.profile = value;
                             }
                         }
