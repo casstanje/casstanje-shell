@@ -1,8 +1,0 @@
-[commands]
-reboot = [ "systemctl", "reboot" ]
-poweroff = [ "systemctl", "poweroff" ]
-
-[GTK]
-application_prefer_dark_theme = true
-font_name = "monospace 16"
-theme_name = "catppuccin-mocha-green-standard+default"
