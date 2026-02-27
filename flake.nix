@@ -22,8 +22,8 @@
         imports = [
           ./modules/casstanje-shell.nix
           catppuccin.homeModules.catppuccin
-        ]
-      }
+        ];
+      };
     };
   };
 }
